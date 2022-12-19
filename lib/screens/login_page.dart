@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // _checkIfisLoggedIn();
     _googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -65,25 +64,6 @@ class _LoginPageState extends State<LoginPage> {
   AccessToken? _accessToken;
   bool _checking = true;
 
-  _checkIfisLoggedIn() async {
-    final accessToken = await FacebookAuth.instance.accessToken;
-
-    setState(() {
-      _checking = false;
-    });
-
-    if (accessToken != null) {
-      print(accessToken.toJson());
-      final userData = await FacebookAuth.instance.getUserData();
-      _accessToken = accessToken;
-      setState(() {
-        _userData = userData;
-      });
-    } else {
-      _login();
-    }
-  }
-
   _login() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -95,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print(result.status);
       print(result.message);
+      print(_userData);
     }
     setState(() {
       _checking = false;
@@ -247,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                                                         const AdminPage(),
                                                   ),
                                                 );
-                                              } else if (user!=null) {
+                                              } else {
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                   MaterialPageRoute(

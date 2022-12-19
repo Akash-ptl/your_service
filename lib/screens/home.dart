@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: IndexedStack(index: index, children: [
         Padding(
-          padding: const EdgeInsets.only(right: 24, left: 12),
+          padding: const EdgeInsets.only(right: 24.0, left: 12.0),
           child: Column(
             children: [
               CarouselSlider(
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(
-                height: 15,
+                height: 15.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Categories',
                     style: GoogleFonts.comfortaa(
-                        fontSize: 20, fontWeight: FontWeight.w900),
+                        fontSize: 20.0, fontWeight: FontWeight.w900),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'See All',
                       style: GoogleFonts.comfortaa(
-                          fontSize: 16,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey),
                     ),
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 10.0,
               ),
               SizedBox(
                 height: h / 4.7,
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       return (index < 3)
                           ? SizedBox(
-                              width: 180,
+                              width: 180.0,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -180,26 +180,26 @@ class _HomePageState extends State<HomePage> {
                                 child: Card(
                                   shape: const RoundedRectangleBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
+                                        BorderRadius.all(Radius.circular(12.0)),
                                   ),
                                   color: Colors.grey.shade200,
                                   child: Column(
                                     children: [
                                       SizedBox(
                                         width: w,
-                                        height: 162,
+                                        height: 162.0,
                                         child: Card(
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
+                                                Radius.circular(12.0)),
                                           ),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                height: 100,
-                                                width: 100,
+                                                height: 100.0,
+                                                width: 100.0,
                                                 child: Image.network(
                                                   category[index]['img'],
                                                 ),
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                                       Text(
                                         category[index]['name'],
                                         style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
+                                            fontSize: 20.0,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       const Spacer(),
@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                     }),
               ),
               const SizedBox(
-                height: 15,
+                height: 15.0,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Popular Services',
                     style: GoogleFonts.comfortaa(
-                        fontSize: 20, fontWeight: FontWeight.w900),
+                        fontSize: 20.0, fontWeight: FontWeight.w900),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -247,7 +247,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'See All',
                       style: GoogleFonts.comfortaa(
-                          fontSize: 16,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey),
                     ),
@@ -255,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(
-                height: 15,
+                height: 15.0,
               ),
               SizedBox(
                 height: h / 3.1,
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                     itemCount: service.length,
                     itemBuilder: (context, index) {
                       return SizedBox(
-                        width: 386,
+                        width: 386.0,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -280,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                           child: Card(
                             shape: const RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
+                                  BorderRadius.all(Radius.circular(12.0)),
                             ),
                             color: Colors.grey.shade200,
                             child: Column(
@@ -288,11 +288,11 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 SizedBox(
                                   width: w,
-                                  height: 162,
+                                  height: 162.0,
                                   child: Card(
                                     shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(12.0)),
                                     ),
                                     child: Image.asset(service[index]['img']),
                                   ),
@@ -300,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: SizedBox(
-                                    height: 110,
+                                    height: 110.0,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -310,37 +310,37 @@ class _HomePageState extends State<HomePage> {
                                         Text(
                                           service[index]['name'],
                                           style: GoogleFonts.comfortaa(
-                                              fontSize: 20,
+                                              fontSize: 20.0,
                                               fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Rating : ${service[index]['rate']}',
+                                          style: GoogleFonts.comfortaa(
+                                            fontSize: 14.0,
+                                          ),
                                         ),
                                         Text(
                                           'Category : ${service[index]['category']}',
                                           style: GoogleFonts.comfortaa(
-                                            fontSize: 14,
+                                            fontSize: 14.0,
                                           ),
                                         ),
                                         Text(
                                           'Service : ${service[index]['service']}',
                                           style: GoogleFonts.comfortaa(
-                                            fontSize: 14,
+                                            fontSize: 14.0,
                                           ),
                                         ),
                                         Text(
                                           'Experience : ${service[index]['exp']}',
                                           style: GoogleFonts.comfortaa(
-                                            fontSize: 14,
+                                            fontSize: 14.0,
                                           ),
                                         ),
                                         Text(
                                           'Price : ${service[index]['hr']}',
                                           style: GoogleFonts.comfortaa(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Rating : ${service[index]['rate']}',
-                                          style: GoogleFonts.comfortaa(
-                                            fontSize: 14,
+                                            fontSize: 14.0,
                                           ),
                                         ),
                                       ],
@@ -360,140 +360,134 @@ class _HomePageState extends State<HomePage> {
         Container(),
         Container(),
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Center(
-                      child: Stack(
-                        alignment: const Alignment(1, 0.9),
-                        children: [
-                          const CircleAvatar(
-                            radius: 40,
-                            backgroundImage: NetworkImage(
-                                'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(CupertinoIcons.add_circled_solid,
-                                size: 30, color: blackColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Center(
+                    child: Stack(
+                      alignment: const Alignment(1, 0.9),
                       children: [
-                        Text(
-                          '${_currentUser.displayName}',
-                          style: GoogleFonts.comfortaa(
-                            color: blackColor,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        const CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: NetworkImage(
+                              'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          '${_currentUser.email}',
-                          style: GoogleFonts.comfortaa(
-                            color: greyColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            shape: BoxShape.circle,
                           ),
+                          child: Icon(CupertinoIcons.add_circled_solid,
+                              size: 30.0, color: blackColor),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                ListTile(
-                  leading: const Icon(Icons.book),
-                  title: Text(' My Order ', style: GoogleFonts.comfortaa()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OrderPage()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.workspace_premium),
-                  title:
-                      Text(' Change Password ', style: GoogleFonts.comfortaa()),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const Icon(Icons.location_on),
-                  title: Text(' Your Address ', style: GoogleFonts.comfortaa()),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.video_label),
-                  title: Text(' Contact Us ', style: GoogleFonts.comfortaa()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ContactPage()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.edit),
-                  title: Text(' Help ', style: GoogleFonts.comfortaa()),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: const Icon(Icons.edit),
-                  title: Text(' Review ', style: GoogleFonts.comfortaa()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ReviewPage()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.edit),
-                  title: Text(' About us ', style: GoogleFonts.comfortaa()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AboutusPage()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: Text('LogOut', style: GoogleFonts.comfortaa()),
-                  onTap: () async {
-                    setState(() {});
-                    await FirebaseAuth.instance.signOut();
-                    setState(() {});
-
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                  ),
+                  const SizedBox(width: 20.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${_currentUser.displayName}',
+                        style: GoogleFonts.comfortaa(
+                          color: blackColor,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                      const SizedBox(height: 5.0),
+                      Text(
+                        '${_currentUser.email}',
+                        style: GoogleFonts.comfortaa(
+                          color: greyColor,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              ListTile(
+                leading: const Icon(Icons.book),
+                title: Text(' My Order ', style: GoogleFonts.comfortaa()),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const OrderPage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.workspace_premium),
+                title:
+                    Text(' Change Password ', style: GoogleFonts.comfortaa()),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: const Icon(Icons.location_on),
+                title: Text(' Your Address ', style: GoogleFonts.comfortaa()),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.video_label),
+                title: Text(' Contact Us ', style: GoogleFonts.comfortaa()),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ContactPage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: Text(' Help ', style: GoogleFonts.comfortaa()),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: Text(' Review ', style: GoogleFonts.comfortaa()),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ReviewPage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: Text(' About us ', style: GoogleFonts.comfortaa()),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutusPage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: Text('LogOut', style: GoogleFonts.comfortaa()),
+                onTap: () async {
+                  setState(() {});
+                  await FirebaseAuth.instance.signOut();
+                  setState(() {});
+
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ]),
@@ -502,8 +496,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
-        iconSize: 30,
-        elevation: 5,
+        iconSize: 30.0,
+        elevation: 5.0,
         currentIndex: index,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.black,
@@ -516,7 +510,10 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Image.asset('images/YS.png', height: 25), label: 'Home'),
+              icon: (index == 0)
+                  ? Image.asset('images/YS.png', height: 25.0)
+                  : Image.asset('images/ysgrey.png', height: 25.0),
+              label: 'Home'),
           const BottomNavigationBarItem(
               icon: Icon(Icons.history), label: 'History'),
           const BottomNavigationBarItem(

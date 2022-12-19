@@ -35,66 +35,70 @@ class _CleaningPageState extends State<CleaningPage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: category.length,
-          itemBuilder: (context, index) {
-            return SizedBox(
-              height: 210,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ServicePage(
-                              user: widget.user,
-                              cat: category[index]['name'],
-                            )),
-                  );
-                },
-                child: Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  color: Colors.grey.shade200,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: w,
-                        height: 162,
-                        child: Card(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: Image.network(
-                                  category[index]['img'],
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: category.length,
+            itemBuilder: (context, index) {
+              return SizedBox(
+                height: 210,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServicePage(
+                                user: widget.user,
+                                cat: category[index]['name'],
+                              )),
+                    );
+                  },
+                  child: Card(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    color: Colors.grey.shade200,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: w,
+                          height: 162,
+                          child: Card(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Image.network(
+                                    category[index]['img'],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5, top: 8),
-                        child: Text(
-                          category[index]['name'],
-                          style: GoogleFonts.comfortaa(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5, top: 8),
+                          child: Text(
+                            category[index]['name'],
+                            style: GoogleFonts.comfortaa(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
       backgroundColor: Colors.white,
     );
   }
