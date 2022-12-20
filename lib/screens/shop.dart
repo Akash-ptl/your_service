@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:your_service/screens/login_page.dart';
+import 'package:your_service/utils/fire_auth.dart';
 
 class ShopPage extends StatefulWidget {
   const ShopPage();
@@ -19,7 +22,7 @@ class _ShopPageState extends State<ShopPage> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: const Center(),
+      body: Center(),
     );
   }
 }

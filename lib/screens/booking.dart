@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/global.dart';
+import 'package:your_service/screens/login_page.dart';
+import 'package:your_service/utils/fire_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage();

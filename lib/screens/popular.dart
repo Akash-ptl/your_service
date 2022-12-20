@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:your_service/global.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/screens/buy.dart';
 
+import '../services/crud.dart';
+
 class PopularPage extends StatefulWidget {
   final User user;
+  final String cat;
 
-  const PopularPage({required this.user});
+  const PopularPage({required this.user, required this.cat});
 
   @override
   _PopularPageState createState() => _PopularPageState();
@@ -18,6 +22,8 @@ class _PopularPageState extends State<PopularPage> {
   void initState() {
     super.initState();
   }
+
+  final Stream<QuerySnapshot> collection = FirebaseCrud.readWorker();
 
   @override
   Widget build(BuildContext context) {
@@ -33,95 +39,83 @@ class _PopularPageState extends State<PopularPage> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: service.length,
-          itemBuilder: (context, i) {
-            return SizedBox(
-              width: w,
-              height: h / 5,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BuyPage(
-                              user: widget.user, ind: i,
-                            )),
-                  );
-                },
-                child: Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  color: Colors.grey.shade200,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: w / 2.4,
-                        height: h,
-                        child: Card(
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: Image.asset(service[i]['img']),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              service[i]['name'],
-                              style: GoogleFonts.comfortaa(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Category : ${service[i]['category']}',
-                              style: GoogleFonts.comfortaa(
-                                fontSize: 14,
+      body: StreamBuilder(
+          stream: collection,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return (widget.cat ==
+                              snapshot.data!.docs[index]['Category'])
+                          ? SizedBox(
+                              width: 180,
+                              height: 200,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BuyPage(
+                                              user: widget.user,
+                                              cat: snapshot.data!.docs[index]
+                                                  ['Category'],
+                                            )),
+                                  );
+                                },
+                                child: Card(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  color: Colors.grey.shade200,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: w,
+                                        height: 162,
+                                        child: Card(
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                height: 100,
+                                                width: 100,
+                                                child: Image.network(
+                                                  category[index]['img'],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data!.docs[index]['Category'],
+                                        style: GoogleFonts.comfortaa(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Service : ${service[i]['service']}',
-                              style: GoogleFonts.comfortaa(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              'Experience : ${service[i]['exp']}',
-                              style: GoogleFonts.comfortaa(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              'Price : ${service[i]['hr']}',
-                              style: GoogleFonts.comfortaa(
-                                fontSize: 14,
-                              ),
-                            ),
-                            Text(
-                              'Rating : ${service[i]['rate']}',
-                              style: GoogleFonts.comfortaa(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+                            )
+                          : Container();
+                    }),
+              );
+            }
+            return Container();
+          }),
       backgroundColor: Colors.white,
     );
   }

@@ -7,10 +7,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:your_service/screens/home.dart';
 
 class BuyPage extends StatefulWidget {
-  int ind;
+  final String cat;
+
   final User user;
 
-  BuyPage({required this.ind, required this.user});
+  const BuyPage({required this.cat, required this.user});
 
   @override
   _BuyPageState createState() => _BuyPageState();
@@ -138,16 +139,7 @@ class _BuyPageState extends State<BuyPage> {
                               }
                             } else {
                               if (currentStep < 2) currentStep++;
-                              setState(() {
-                                addOrder.addAll([
-                                  {
-                                    'img': person[widget.ind]['image'],
-                                    'cat': person[widget.ind]['category'],
-                                    'val': person[widget.ind]['hr'],
-                                    'rate': person[widget.ind]['rate']
-                                  }
-                                ].reversed);
-                              });
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -788,6 +780,7 @@ class _OrderDoneState extends State<OrderDone> {
                       MaterialPageRoute(
                           builder: (BuildContext context) => HomePage(
                                 user: widget.user,
+                                cat: '',
                               )),
                       ModalRoute.withName('/'),
                     );

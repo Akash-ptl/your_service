@@ -1,0 +1,24 @@
+class Workers {
+  String? uid;
+  String? name;
+  String? category;
+  String? service;
+  String? price;
+  String? experience;
+  String? details;
+  String? time;
+
+  Workers(
+      {this.uid,
+      this.name,
+      this.category,
+      this.service,
+      this.price,
+      this.experience,
+      this.details,
+      this.time});
+}
+
+class Carousel {
+  String? image;
+}

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/screens/admin.dart';
 import 'package:your_service/screens/home.dart';
 import 'package:your_service/screens/register_page.dart';
 import 'package:your_service/screens/reset.dart';
@@ -24,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    // _checkIfisLoggedIn();
     _googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(
           builder: (context) => HomePage(
             user: user,
+            cat: '',
           ),
         ),
       );
@@ -64,6 +65,25 @@ class _LoginPageState extends State<LoginPage> {
   AccessToken? _accessToken;
   bool _checking = true;
 
+  _checkIfisLoggedIn() async {
+    final accessToken = await FacebookAuth.instance.accessToken;
+
+    setState(() {
+      _checking = false;
+    });
+
+    if (accessToken != null) {
+      print(accessToken.toJson());
+      final userData = await FacebookAuth.instance.getUserData();
+      _accessToken = accessToken;
+      setState(() {
+        _userData = userData;
+      });
+    } else {
+      _login();
+    }
+  }
+
   _login() async {
     final LoginResult result = await FacebookAuth.instance.login();
 
@@ -75,7 +95,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       print(result.status);
       print(result.message);
-      print(_userData);
     }
     setState(() {
       _checking = false;
@@ -219,26 +238,23 @@ class _LoginPageState extends State<LoginPage> {
                                                 _isProcessing = false;
                                               });
 
-                                              if (user!.uid ==
-                                                  'CrAHdUiziNRPPvwiKTmEj2EGIOK2') {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const AdminPage(),
-                                                  ),
-                                                );
-                                              } else {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomePage(user: user),
-                                                  ),
-                                                );
-                                              }
-
-                                              // if (user != null) {
+                                              // if (user!.uid ==
+                                              //     'CrAHdUiziNRPPvwiKTmEj2EGIOK2') {
+                                              //   // Navigator.of(context)
+                                              //   //     .pushReplacement(
+                                              //   //   MaterialPageRoute(
+                                              //   //     builder: (context) =>
+                                              //   //         const AdminPage(),
+                                              //   //   ),
+                                              //   // );
+                                              //   Navigator.of(context)
+                                              //       .pushReplacement(
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           AddPage(),
+                                              //     ),
+                                              //   );
+                                              // } else
                                               //   Navigator.of(context)
                                               //       .pushReplacement(
                                               //     MaterialPageRoute(
@@ -246,7 +262,19 @@ class _LoginPageState extends State<LoginPage> {
                                               //           HomePage(user: user),
                                               //     ),
                                               //   );
-                                              // }
+
+                                              if (user != null) {
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomePage(
+                                                      user: user,
+                                                      cat: '',
+                                                    ),
+                                                  ),
+                                                );
+                                              }
                                             }
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -288,8 +316,10 @@ class _LoginPageState extends State<LoginPage> {
                                     if (user != null) {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomePage(user: user),
+                                          builder: (context) => HomePage(
+                                            user: user,
+                                            cat: '',
+                                          ),
                                         ),
                                       );
                                     }

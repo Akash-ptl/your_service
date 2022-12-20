@@ -64,7 +64,7 @@ List<Map<String, dynamic>> category = [
   },
 ];
 List<Map<String, dynamic>> addOrder = [];
-
+int index = 0;
 List<Map<String, dynamic>> service = [
   {
     'name': 'Emma',
@@ -219,7 +219,7 @@ List<Map<String, dynamic>> person = [
     'des':
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum ipsum congue risus iaculis, id auctor ante fringilla. Morbi consectetur mattis tortor vel fermentum. Pellentesque vestibulum, justo bibendum ultrices lacinia, turpis purus semper mi, sed dapibus nunc ligula eu nulla. Quisque cursus efficitur enim',
   },
-{
+  {
     'name': 'Aaron',
     'image': 'images/bathroom.png',
     'exp': '3 Years',
