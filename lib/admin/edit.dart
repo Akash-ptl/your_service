@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:your_service/admin/list.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/models/workers.dart';
 import 'package:your_service/services/crud.dart';
 
@@ -9,173 +9,332 @@ class EditPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _EditPage();
   }
 }
 
 class _EditPage extends State<EditPage> {
-  final _employee_name = TextEditingController();
-  final _employee_position = TextEditingController();
-  final _employee_contact = TextEditingController();
+  final _categoryController = TextEditingController();
+  final _serviceController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _timeController = TextEditingController();
+  final _experienceController = TextEditingController();
+  final _detailsController = TextEditingController();
+  final _ratingController = TextEditingController();
+  final _imageController = TextEditingController();
   final _docid = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     _docid.value = TextEditingValue(text: widget.worker!.uid.toString());
-    _employee_name.value =
-        TextEditingValue(text: widget.worker!.name.toString());
-    _employee_position.value =
+    _categoryController.value =
         TextEditingValue(text: widget.worker!.category.toString());
-    _employee_contact.value =
+    _serviceController.value =
         TextEditingValue(text: widget.worker!.service.toString());
+    _nameController.value =
+        TextEditingValue(text: widget.worker!.name.toString());
+    _priceController.value =
+        TextEditingValue(text: widget.worker!.price.toString());
+    _timeController.value =
+        TextEditingValue(text: widget.worker!.time.toString());
+    _experienceController.value =
+        TextEditingValue(text: widget.worker!.experience.toString());
+    _detailsController.value =
+        TextEditingValue(text: widget.worker!.details.toString());
+    _ratingController.value =
+        TextEditingValue(text: widget.worker!.rating.toString());
+    _imageController.value =
+        TextEditingValue(text: widget.worker!.image.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    final DocIDField = TextField(
-        controller: _docid,
-        readOnly: true,
-        autofocus: false,
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: "Name",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
-
-    final nameField = TextFormField(
-        controller: _employee_name,
-        autofocus: false,
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'This field is required';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: "Name",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
-    final positionField = TextFormField(
-        controller: _employee_position,
-        autofocus: false,
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'This field is required';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: "Position",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
-    final contactField = TextFormField(
-        controller: _employee_contact,
-        autofocus: false,
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'This field is required';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: "Contact Number",
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
-
-    final viewListbutton = TextButton(
-        onPressed: () {
-          Navigator.pushAndRemoveUntil<dynamic>(
-            context,
-            MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => ListPage(),
-            ),
-            (route) => false, //if you want to disable back feature set to false
-          );
-        },
-        child: const Text('View List of Employee'));
-
-    final SaveButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Theme.of(context).primaryColor,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () async {
-          if (_formKey.currentState!.validate()) {
-            var response = await FirebaseCrud.updateWorker(
-                name: _employee_name.text,
-                category: _employee_position.text,
-                service: _employee_contact.text,
-                docId: _docid.text);
-            if (response.code != 200) {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Text(response.message.toString()),
-                    );
-                  });
-            } else {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Text(response.message.toString()),
-                    );
-                  });
-            }
-          }
-        },
-        child: Text(
-          "Update",
-          style: TextStyle(color: Theme.of(context).primaryColorLight),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('FreeCode Spot'),
-        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(
+          'Edit',
+          style: GoogleFonts.comfortaa(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Form(
+              key: _formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  DocIDField,
-                  const SizedBox(height: 25.0),
-                  nameField,
-                  const SizedBox(height: 25.0),
-                  positionField,
-                  const SizedBox(height: 35.0),
-                  contactField,
-                  viewListbutton,
-                  const SizedBox(height: 45.0),
-                  SaveButon,
-                  const SizedBox(height: 15.0),
+                children: [
+                  TextFormField(
+                    controller: _categoryController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Category : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _serviceController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Service Name : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _nameController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Worker Name : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _priceController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Price : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _timeController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Time to Complete : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _experienceController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Experience : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _detailsController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Details : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _ratingController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'rating : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _imageController,
+                    autofocus: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
+                    toolbarOptions: const ToolbarOptions(
+                        copy: true, cut: true, paste: true, selectAll: true),
+                    style: GoogleFonts.comfortaa(color: Colors.grey),
+                    decoration: InputDecoration(
+                      prefixText: 'Image URL : ',
+                      prefixStyle: GoogleFonts.comfortaa(),
+                      errorStyle: GoogleFonts.comfortaa(),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        margin: const EdgeInsets.all(50),
+        width: w,
+        child: ElevatedButton(
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              var response = await FirebaseCrud.updateWorker(
+                category: _categoryController.text,
+                name: _nameController.text,
+                service: _serviceController.text,
+                details: _detailsController.text,
+                experience: _experienceController.text,
+                price: _priceController.text,
+                time: _timeController.text,
+                rating: _ratingController.text,
+                image: _imageController.text,
+                docId: _docid.text,
+              );
+              if (response.code != 200) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(response.message.toString()),
+                      );
+                    });
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text(response.message.toString()),
+                      );
+                    });
+              }
+            }
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+          child: Text(
+            'Update',
+            style: GoogleFonts.comfortaa(fontSize: 20),
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
     );
   }
 }

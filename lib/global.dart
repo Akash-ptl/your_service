@@ -64,7 +64,7 @@ List<Map<String, dynamic>> category = [
   },
 ];
 List<Map<String, dynamic>> addOrder = [];
-int index = 0;
+// int index = 0;
 List<Map<String, dynamic>> service = [
   {
     'name': 'Emma',

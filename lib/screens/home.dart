@@ -13,10 +13,10 @@ import 'package:your_service/screens/aboutus.dart';
 import 'package:your_service/screens/category.dart';
 import 'package:your_service/screens/cleaning.dart';
 import 'package:your_service/screens/contact.dart';
+import 'package:your_service/screens/details.dart';
 import 'package:your_service/screens/login_page.dart';
 import 'package:your_service/screens/order.dart';
 import 'package:your_service/screens/review.dart';
-import 'package:your_service/screens/services.dart';
 import 'package:your_service/services/crud.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
@@ -160,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               SizedBox(
-                height: h / 4.7,
+                height: 200,
                 child: StreamBuilder(
                     stream: collection,
                     builder: (BuildContext context,
@@ -279,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ServicePage(
+                                        builder: (context) => DetailPage(
                                               cat: snapshot.data!.docs[index]
                                                   ['Category'],
                                               user: widget.user,
@@ -298,7 +299,7 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       SizedBox(
                                         width: w,
-                                        height: 162,
+                                        height: h / 6,
                                         child: const Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -311,7 +312,7 @@ class _HomePageState extends State<HomePage> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: SizedBox(
-                                          height: 110,
+                                          height: h / 8,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
@@ -391,10 +392,14 @@ class _HomePageState extends State<HomePage> {
                             child: Stack(
                               alignment: const Alignment(1, 0.9),
                               children: [
-                                const CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                      'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey.shade300,
+                                  radius: 42,
+                                  child: const CircleAvatar(
+                                    radius: 40,
+                                    backgroundImage: NetworkImage(
+                                        'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+                                  ),
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
@@ -434,7 +439,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 30),
                       ListTile(
-                        leading: const Icon(Icons.book),
+                        leading: const Icon(Icons.add),
                         title: Text(' Add  ', style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
@@ -444,7 +449,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.workspace_premium),
+                        leading: const Icon(Icons.edit),
                         title: Text(' Edit ', style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
@@ -455,7 +460,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.location_on),
+                        leading: const Icon(Icons.list),
                         title: Text(' List ', style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
@@ -466,52 +471,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ListTile(
                         leading: const Icon(Icons.location_on),
-                        title: Text(' Add Carousel ',
+                        title: Text(' Add Category ',
                             style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => AddPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.video_label),
-                        title: Text(' Contact Us ',
-                            style: GoogleFonts.comfortaa()),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ContactPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.edit),
-                        title: Text(' Help ', style: GoogleFonts.comfortaa()),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.edit),
-                        title: Text(' Review ', style: GoogleFonts.comfortaa()),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ReviewPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.edit),
-                        title:
-                            Text(' About us ', style: GoogleFonts.comfortaa()),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AboutusPage()),
                           );
                         },
                       ),

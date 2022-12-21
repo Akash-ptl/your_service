@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/screens/login_page.dart';
-import 'package:your_service/screens/profile_page.dart';
 import 'package:your_service/utils/fire_auth.dart';
 import 'package:your_service/utils/validator.dart';
 
@@ -34,6 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           elevation: 0,
         ),

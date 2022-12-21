@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/screens/services.dart';
+import 'package:your_service/screens/details.dart';
 import 'package:your_service/services/crud.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -57,7 +57,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ServicePage(
+                                  builder: (context) => DetailPage(
                                         user: widget.user,
                                         cat: snapshot.data!.docs[index]
                                             ['Category'],

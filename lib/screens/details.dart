@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/global.dart';
 import 'package:your_service/screens/buy.dart';
 import 'package:your_service/services/crud.dart';
 
@@ -55,7 +54,7 @@ class _DetailPageState extends State<DetailPage> {
                               snapshot.data!.docs[index]['Category'])
                           ? SizedBox(
                               width: 180,
-                              height: 200,
+                              height: h / 1.5,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -87,47 +86,74 @@ class _DetailPageState extends State<DetailPage> {
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
-                                            children: [
+                                            children: const [
                                               SizedBox(
                                                 height: 100,
                                                 width: 100,
-                                                child: Image.network(
-                                                  category[index]['img'],
-                                                ),
+                                                // child: Image.network(
+                                                //   category[index]['img'],
+                                                // ),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                      SizedBox(
+                                        height: h / 2.2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                snapshot.data!.docs[index]
+                                                    ['Name'],
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Category : ${snapshot.data!.docs[index]['Category']}',
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Service : ${snapshot.data!.docs[index]['Service']}',
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Rating : ${snapshot.data!.docs[index]['Rating']}',
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Experience : ${snapshot.data!.docs[index]['Experience']}',
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                'Details : ${snapshot.data!.docs[index]['Details']}',
+                                                style: GoogleFonts.comfortaa(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

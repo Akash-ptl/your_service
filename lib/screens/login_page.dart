@@ -296,62 +296,41 @@ class _LoginPageState extends State<LoginPage> {
                                     ],
                                   ),
                             const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    GoogleSignInAccount? googleSignInAccount =
-                                        await _googleSignIn.signIn();
-                                    if (googleSignInAccount != null) {
-                                      print(googleSignInAccount.displayName);
-                                      print(googleSignInAccount.email);
-                                      print(googleSignInAccount.id);
-                                    }
-                                    User? user =
-                                        await FireAuth.signInUsingEmailPassword(
-                                      email: _emailTextController.text,
-                                      password: _passwordTextController.text,
-                                    );
-                                    if (user != null) {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => HomePage(
-                                            user: user,
-                                            cat: '',
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: const CircleAvatar(
-                                    radius: 22,
-                                    backgroundColor: Colors.grey,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 21.2,
-                                      backgroundImage:
-                                          AssetImage('images/google.png'),
+                            GestureDetector(
+                              onTap: () async {
+                                GoogleSignInAccount? googleSignInAccount =
+                                    await _googleSignIn.signIn();
+                                if (googleSignInAccount != null) {
+                                  print(googleSignInAccount.displayName);
+                                  print(googleSignInAccount.email);
+                                  print(googleSignInAccount.id);
+                                }
+                                User? user =
+                                    await FireAuth.signInUsingEmailPassword(
+                                  email: _emailTextController.text,
+                                  password: _passwordTextController.text,
+                                );
+                                if (user != null) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => HomePage(
+                                        user: user,
+                                        cat: '',
+                                      ),
                                     ),
-                                  ),
+                                  );
+                                }
+                              },
+                              child: const CircleAvatar(
+                                radius: 22,
+                                backgroundColor: Colors.grey,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 21.2,
+                                  backgroundImage:
+                                      AssetImage('images/google.png'),
                                 ),
-                                const SizedBox(width: 20),
-                                GestureDetector(
-                                  onTap: () {
-                                    _login();
-                                  },
-                                  child: const CircleAvatar(
-                                    radius: 22,
-                                    backgroundColor: Colors.grey,
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      radius: 21.2,
-                                      backgroundImage:
-                                          AssetImage('images/facebook.png'),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),

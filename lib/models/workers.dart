@@ -7,6 +7,9 @@ class Workers {
   String? experience;
   String? details;
   String? time;
+  String? image;
+
+  String? rating;
 
   Workers(
       {this.uid,
@@ -16,9 +19,12 @@ class Workers {
       this.price,
       this.experience,
       this.details,
-      this.time});
+      this.time,
+      this.image,
+      this.rating});
 }
 
-class Carousel {
+class Category {
+  String? name;
   String? image;
 }

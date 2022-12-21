@@ -26,8 +26,11 @@ class _ResetPageState extends State<ResetPage> {
       showDialog(
           context: context,
           builder: (context) {
-            return const AlertDialog(
-              content: Text("Password reset link sent! Check your email"),
+            return AlertDialog(
+              content: Text(
+                "Password reset link sent! Check your email",
+                style: GoogleFonts.comfortaa(),
+              ),
             );
           });
     } on FirebaseAuthException {
@@ -72,6 +75,7 @@ class _ResetPageState extends State<ResetPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           elevation: 0,
         ),

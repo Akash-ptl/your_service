@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:your_service/global.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/screens/details.dart';
 import 'package:your_service/services/crud.dart';
@@ -92,7 +91,8 @@ class _ServicePageState extends State<ServicePage> {
                                                 height: 100,
                                                 width: 100,
                                                 child: Image.network(
-                                                  category[index]['img'],
+                                                  snapshot.data!.docs[index]
+                                                      ['Image'],
                                                 ),
                                               ),
                                             ],

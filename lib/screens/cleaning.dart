@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/global.dart';
 import 'package:your_service/screens/services.dart';
 import 'package:your_service/services/crud.dart';
 
@@ -32,7 +31,7 @@ class _CleaningPageState extends State<CleaningPage> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          'Service',
+          'Cleaning',
           style: GoogleFonts.comfortaa(color: Colors.black),
         ),
         centerTitle: true,
@@ -92,7 +91,8 @@ class _CleaningPageState extends State<CleaningPage> {
                                                 height: 100,
                                                 width: 100,
                                                 child: Image.network(
-                                                  category[index]['img'],
+                                                  snapshot.data!.docs[index]
+                                                      ['Image'],
                                                 ),
                                               ),
                                             ],
