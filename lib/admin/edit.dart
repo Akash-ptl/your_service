@@ -24,6 +24,8 @@ class _EditPage extends State<EditPage> {
   final _ratingController = TextEditingController();
   final _imageController = TextEditingController();
   final _docid = TextEditingController();
+  final _idController = TextEditingController();
+  final _genderController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -48,6 +50,9 @@ class _EditPage extends State<EditPage> {
         TextEditingValue(text: widget.worker!.rating.toString());
     _imageController.value =
         TextEditingValue(text: widget.worker!.image.toString());
+    _idController.value = TextEditingValue(text: widget.worker!.id.toString());
+    _genderController.value =
+        TextEditingValue(text: widget.worker!.gender.toString());
   }
 
   @override
@@ -69,224 +74,266 @@ class _EditPage extends State<EditPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _categoryController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Category : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: _categoryController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Category : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
                     ),
                   ),
-                  TextFormField(
-                    controller: _serviceController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Service Name : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _nameController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Worker Name : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _priceController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Price : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _timeController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Time to Complete : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _experienceController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Experience : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _detailsController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Details : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _ratingController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'rating : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextFormField(
-                    controller: _imageController,
-                    autofocus: false,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'This field is required';
-                      }
-                      return null;
-                    },
-                    toolbarOptions: const ToolbarOptions(
-                        copy: true, cut: true, paste: true, selectAll: true),
-                    style: GoogleFonts.comfortaa(color: Colors.grey),
-                    decoration: InputDecoration(
-                      prefixText: 'Image URL : ',
-                      prefixStyle: GoogleFonts.comfortaa(),
-                      errorStyle: GoogleFonts.comfortaa(),
-                      errorBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            )
-          ],
+              TextFormField(
+                controller: _serviceController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Service Name : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _nameController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Worker Name : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _genderController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Gender : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _priceController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Price : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _timeController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Time to Complete : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _experienceController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Experience : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _detailsController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Details : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _ratingController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'rating : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _imageController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Image URL : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+              TextFormField(
+                controller: _idController,
+                autofocus: false,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+                toolbarOptions: const ToolbarOptions(
+                    copy: true, cut: true, paste: true, selectAll: true),
+                style: GoogleFonts.comfortaa(color: Colors.grey),
+                decoration: InputDecoration(
+                  prefixText: 'Id : ',
+                  prefixStyle: GoogleFonts.comfortaa(),
+                  errorStyle: GoogleFonts.comfortaa(),
+                  errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -307,6 +354,9 @@ class _EditPage extends State<EditPage> {
                 rating: _ratingController.text,
                 image: _imageController.text,
                 docId: _docid.text,
+                id: _idController.text,
+                gender: _genderController.text,
+                wimage: '',
               );
               if (response.code != 200) {
                 showDialog(

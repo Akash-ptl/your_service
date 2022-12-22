@@ -6,7 +6,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:your_service/admin/add.dart';
-import 'package:your_service/admin/edit.dart';
 import 'package:your_service/admin/list.dart';
 import 'package:your_service/global.dart';
 import 'package:your_service/screens/aboutus.dart';
@@ -172,75 +171,82 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              return (index < 3)
-                                  ? SizedBox(
-                                      width: 180,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CleaningPage(
-                                                      user: widget.user,
-                                                      cat: snapshot
-                                                              .data!.docs[index]
-                                                          ['Category'],
-                                                    )),
-                                          );
-                                        },
-                                        child: Card(
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                          ),
-                                          color: Colors.grey.shade200,
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
-                                                width: w,
-                                                height: 162,
-                                                child: Card(
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                12)),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 100,
-                                                        width: 100,
-                                                        child: Image.network(
-                                                          snapshot.data!
+                              return (index < 7)
+                                  ? (snapshot.data!.docs[index]['Id'] == '1')
+                                      ? SizedBox(
+                                          width: 180,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CleaningPage(
+                                                          user: widget.user,
+                                                          cat: snapshot.data!
                                                                   .docs[index]
-                                                              ['Image'],
-                                                        ),
+                                                              ['Category'],
+                                                        )),
+                                              );
+                                            },
+                                            child: Card(
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(12)),
+                                              ),
+                                              color: Colors.grey.shade200,
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                    width: w,
+                                                    height: 162,
+                                                    child: Card(
+                                                      shape:
+                                                          const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    12)),
                                                       ),
-                                                    ],
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 100,
+                                                            width: 100,
+                                                            child:
+                                                                Image.network(
+                                                              snapshot.data!
+                                                                          .docs[
+                                                                      index]
+                                                                  ['Image'],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  const Spacer(),
+                                                  Text(
+                                                    snapshot.data!.docs[index]
+                                                        ['Category'],
+                                                    style:
+                                                        GoogleFonts.comfortaa(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                  const Spacer(),
+                                                ],
                                               ),
-                                              const Spacer(),
-                                              Text(
-                                                snapshot.data!.docs[index]
-                                                    ['Category'],
-                                                style: GoogleFonts.comfortaa(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              const Spacer(),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
+                                        )
+                                      : Container()
                                   : Container();
                             });
                       }
@@ -273,99 +279,113 @@ class _HomePageState extends State<HomePage> {
                           scrollDirection: Axis.horizontal,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
-                            return SizedBox(
-                              width: 386,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                              cat: snapshot.data!.docs[index]
-                                                  ['Category'],
-                                              user: widget.user,
-                                            )),
-                                  );
-                                },
-                                child: Card(
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  color: Colors.grey.shade200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: w,
-                                        height: h / 6,
-                                        child: const Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                          ),
-                                          // child: Image.asset(
-                                          //     service[index]['img']),
+                            return (snapshot.data!.docs[index]['Id'] == '1')
+                                ? SizedBox(
+                                    width: 386,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                    cat: snapshot.data!
+                                                        .docs[index]['Service'],
+                                                    user: widget.user,
+                                                  )),
+                                        );
+                                      },
+                                      child: Card(
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
+                                        ),
+                                        color: Colors.grey.shade200,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: w,
+                                              height: h / 6,
+                                              child: Card(
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(12)),
+                                                ),
+                                                child: Image.asset(snapshot
+                                                    .data!
+                                                    .docs[index]['WImage']),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: SizedBox(
+                                                height: h / 8,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      snapshot.data!.docs[index]
+                                                          ['Name'],
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                    ),
+                                                    Text(
+                                                      'Category : ${snapshot.data!.docs[index]['Category']}',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Service : ${snapshot.data!.docs[index]['Service']}',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Experience : ${snapshot.data!.docs[index]['Experience']}',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Price : ${snapshot.data!.docs[index]['Price']}',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Rating : ${snapshot.data!.docs[index]['Rating']}',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          height: h / 8,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                snapshot.data!.docs[index]
-                                                    ['Name'],
-                                                style: GoogleFonts.comfortaa(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                'Category : ${snapshot.data!.docs[index]['Category']}',
-                                                style: GoogleFonts.comfortaa(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Service : ${snapshot.data!.docs[index]['Service']}',
-                                                style: GoogleFonts.comfortaa(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Experience : ${snapshot.data!.docs[index]['Experience']}',
-                                                style: GoogleFonts.comfortaa(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Price : ${snapshot.data!.docs[index]['Price']}',
-                                                style: GoogleFonts.comfortaa(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Rating : ${snapshot.data!.docs[index]['Rating']}',
-                                                style: GoogleFonts.comfortaa(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
+                                    ),
+                                  )
+                                : Container();
                           },
                         );
                       }
@@ -375,7 +395,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        Container(),
         Container(),
         (widget.user.uid == 'CrAHdUiziNRPPvwiKTmEj2EGIOK2')
             ? Padding(
@@ -449,17 +468,6 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.edit),
-                        title: Text(' Edit ', style: GoogleFonts.comfortaa()),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditPage()),
-                          );
-                        },
-                      ),
-                      ListTile(
                         leading: const Icon(Icons.list),
                         title: Text(' List ', style: GoogleFonts.comfortaa()),
                         onTap: () {
@@ -471,12 +479,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ListTile(
                         leading: const Icon(Icons.location_on),
-                        title: Text(' Add Category ',
-                            style: GoogleFonts.comfortaa()),
+                        title: Text(' Orders ', style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AddPage()),
+                            MaterialPageRoute(
+                                builder: (context) => OrderPage()),
                           );
                         },
                       ),
@@ -563,22 +571,8 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const OrderPage()),
+                                builder: (context) => OrderPage()),
                           );
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.workspace_premium),
-                        title: Text(' Change Password ',
-                            style: GoogleFonts.comfortaa()),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.location_on),
-                        title: Text(' Your Address ',
-                            style: GoogleFonts.comfortaa()),
-                        onTap: () {
-                          Navigator.pop(context);
                         },
                       ),
                       ListTile(
@@ -594,12 +588,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.edit),
-                        title: Text(' Help ', style: GoogleFonts.comfortaa()),
-                        onTap: () {},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.edit),
+                        leading: const Icon(Icons.reviews),
                         title: Text(' Review ', style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
@@ -660,11 +649,12 @@ class _HomePageState extends State<HomePage> {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Image.asset('images/YS.png', height: 25), label: 'Home'),
+              icon: (index == 0)
+                  ? Image.asset('images/YS.png', height: 25)
+                  : Image.asset('images/ysgrey.png', height: 25),
+              label: 'Home'),
           const BottomNavigationBarItem(
               icon: Icon(Icons.history), label: 'History'),
-          const BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined), label: 'Shop'),
           BottomNavigationBarItem(
             icon: const Icon(MdiIcons.accountOutline),
             label: (widget.user.uid == 'CrAHdUiziNRPPvwiKTmEj2EGIOK2')

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/admin/edit.dart';
@@ -100,7 +99,7 @@ class _ListPage extends State<ListPage> {
                                         width: 200,
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
@@ -136,105 +135,83 @@ class _ListPage extends State<ListPage> {
                                             ),
                                             Row(
                                               children: [
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        const Color.fromARGB(
-                                                            255, 143, 133, 226),
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            5.0),
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 20),
-                                                  ),
-                                                  child: Text(
-                                                    'Edit',
-                                                    style:
-                                                        GoogleFonts.comfortaa(
-                                                            color:
-                                                                Colors.green),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator
-                                                        .pushAndRemoveUntil<
-                                                            dynamic>(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            EditPage(
-                                                          worker: Workers(
-                                                              uid: snapshot
-                                                                  .data!
-                                                                  .docs[index]
-                                                                  .id,
-                                                              name: snapshot.data!.docs[index]
-                                                                  ['Name'],
-                                                              category: snapshot
+                                                IconButton(
+                                                    onPressed: () => Navigator
+                                                            .pushAndRemoveUntil<
+                                                                dynamic>(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                EditPage(
+                                                              worker: Workers(
+                                                                  uid: snapshot
                                                                       .data!
-                                                                      .docs[index]
-                                                                  ['Category'],
-                                                              image: snapshot.data!.docs[index]
-                                                                  ['Image'],
-                                                              rating: snapshot
-                                                                      .data!
-                                                                      .docs[index]
-                                                                  ['Rating'],
-                                                              service: snapshot
-                                                                      .data!
-                                                                      .docs[index]
-                                                                  ['Service'],
-                                                              experience: snapshot
-                                                                  .data!
-                                                                  .docs[index]['Experience'],
-                                                              time: snapshot.data!.docs[index]['Time'],
-                                                              details: snapshot.data!.docs[index]['Details'],
-                                                              price: snapshot.data!.docs[index]['Price']),
+                                                                      .docs[
+                                                                          index]
+                                                                      .id,
+                                                                  name: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Name'],
+                                                                  category: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'Category'],
+                                                                  image: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Image'],
+                                                                  rating: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Rating'],
+                                                                  service: snapshot.data!.docs[index]['Service'],
+                                                                  experience: snapshot.data!.docs[index]['Experience'],
+                                                                  time: snapshot.data!.docs[index]['Time'],
+                                                                  details: snapshot.data!.docs[index]['Details'],
+                                                                  gender: snapshot.data!.docs[index]['Gender'],
+                                                                  id: snapshot.data!.docs[index]['Id'],
+                                                                  wimage: snapshot.data!.docs[index]['WImage'],
+                                                                  price: snapshot.data!.docs[index]['Price']),
+                                                            ),
+                                                          ),
+                                                          (route) =>
+                                                              true, //if you want to disable back feature set to false
                                                         ),
-                                                      ),
-                                                      (route) =>
-                                                          true, //if you want to disable back feature set to false
-                                                    );
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        const Color.fromARGB(
-                                                            255, 143, 133, 226),
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            5.0),
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 20),
-                                                  ),
-                                                  child: Text('Delete',
-                                                      style:
-                                                          GoogleFonts.comfortaa(
-                                                              color:
-                                                                  Colors.red)),
-                                                  onPressed: () async {
-                                                    var response =
-                                                        await FirebaseCrud
-                                                            .deleteWorker(
-                                                                docId: snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                    .id);
-                                                    if (response.code != 200) {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return AlertDialog(
-                                                              content: Text(
-                                                                  response
-                                                                      .message
-                                                                      .toString()),
-                                                            );
-                                                          });
-                                                    }
-                                                  },
-                                                ),
+                                                    icon: const Icon(
+                                                      Icons.edit,
+                                                      color: Colors.green,
+                                                    )),
+                                                IconButton(
+                                                    onPressed: () async {
+                                                      var response =
+                                                          await FirebaseCrud
+                                                              .deleteWorker(
+                                                                  docId: snapshot
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .id);
+                                                      if (response.code !=
+                                                          200) {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                content: Text(
+                                                                    response
+                                                                        .message
+                                                                        .toString()),
+                                                              );
+                                                            });
+                                                      }
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    )),
                                               ],
                                             )
                                           ],

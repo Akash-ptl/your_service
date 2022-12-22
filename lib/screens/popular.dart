@@ -63,8 +63,8 @@ class _PopularPageState extends State<PopularPage> {
                                     MaterialPageRoute(
                                         builder: (context) => BuyPage(
                                               user: widget.user,
-                                              cat: snapshot.data!.docs[index]
-                                                  ['Category'],
+                                              i: index,
+                                              list: snapshot.data!.docs,
                                             )),
                                   );
                                 },

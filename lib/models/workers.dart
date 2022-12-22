@@ -8,6 +8,9 @@ class Workers {
   String? details;
   String? time;
   String? image;
+  String? id;
+  String? wimage;
+  String? gender;
 
   String? rating;
 
@@ -21,10 +24,12 @@ class Workers {
       this.details,
       this.time,
       this.image,
+      this.id,
+      this.wimage,
+      this.gender,
       this.rating});
 }
 
-class Category {
-  String? name;
-  String? image;
+class Users {
+  String? email;
 }

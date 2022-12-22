@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/screens/details.dart';
 import 'package:your_service/services/crud.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ServicePage extends StatefulWidget {
   final String cat;
@@ -51,10 +52,10 @@ class _ServicePageState extends State<ServicePage> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return (widget.cat ==
-                              snapshot.data!.docs[index]['Category'])
+                              snapshot.data!.docs[index]['Service'])
                           ? SizedBox(
                               width: 180,
-                              height: 200,
+                              height: 160,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -63,7 +64,7 @@ class _ServicePageState extends State<ServicePage> {
                                         builder: (context) => DetailPage(
                                               user: widget.user,
                                               cat: snapshot.data!.docs[index]
-                                                  ['Category'],
+                                                  ['Service'],
                                             )),
                                   );
                                 },
@@ -73,37 +74,67 @@ class _ServicePageState extends State<ServicePage> {
                                         BorderRadius.all(Radius.circular(12)),
                                   ),
                                   color: Colors.grey.shade200,
-                                  child: Column(
+                                  child: Row(
                                     children: [
-                                      SizedBox(
-                                        width: w,
-                                        height: 162,
-                                        child: Card(
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                height: 100,
-                                                width: 100,
-                                                child: Image.network(
-                                                  snapshot.data!.docs[index]
-                                                      ['Image'],
-                                                ),
+                                      Card(
+                                        elevation: 0,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(12)),
+                                        ),
+                                        child: SizedBox(
+                                          width: w / 3,
+                                          child: Center(
+                                            child: SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image.asset(
+                                                snapshot.data!.docs[index]
+                                                    ['WImage'],
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        snapshot.data!.docs[index]['Category'],
-                                        style: GoogleFonts.comfortaa(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                      const SizedBox(width: 20),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            snapshot.data!.docs[index]['Name'],
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            'Category : ${snapshot.data!.docs[index]['Category']}',
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          AutoSizeText(
+                                            'Service : ${snapshot.data!.docs[index]['Service']}',
+                                            maxLines: 2,
+                                            style: GoogleFonts.comfortaa(
+                                                // fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            'Rating : ${snapshot.data!.docs[index]['Rating']}',
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            'Experience : ${snapshot.data!.docs[index]['Experience']}',
+                                            style: GoogleFonts.comfortaa(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

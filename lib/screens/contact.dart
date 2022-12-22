@@ -26,6 +26,7 @@ class _ContactPageState extends State<ContactPage> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           'Contact us',
           style: GoogleFonts.comfortaa(color: Colors.black),
@@ -76,7 +77,7 @@ class _ContactPageState extends State<ContactPage> {
                       ),
                       const SizedBox(width: 10),
                       Text('akashkalathiya46@gmail.com',
-                          style: GoogleFonts.comfortaa(fontSize: 20)),
+                          style: GoogleFonts.comfortaa(fontSize: 16)),
                     ],
                   ),
                 ),
@@ -90,35 +91,42 @@ class _ContactPageState extends State<ContactPage> {
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 color: Colors.grey.shade200,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: w / 4.2,
-                      height: h / 10,
-                      child: Card(
-                        margin: const EdgeInsets.all(6),
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: Image.network(
-                                'https://img.icons8.com/ultraviolet/512/phone.png',
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _callNumber();
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: w / 4.2,
+                        height: h / 10,
+                        child: Card(
+                          margin: const EdgeInsets.all(6),
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Image.network(
+                                  'https://img.icons8.com/ultraviolet/512/phone.png',
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text('+91 6756243665',
-                        style: GoogleFonts.comfortaa(fontSize: 20)),
-                  ],
+                      const SizedBox(width: 10),
+                      Text('+91 6756243665',
+                          style: GoogleFonts.comfortaa(fontSize: 16)),
+                    ],
+                  ),
                 ),
               ),
             ),

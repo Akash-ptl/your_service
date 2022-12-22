@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +6,13 @@ import 'package:your_service/global.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:your_service/screens/home.dart';
+import 'package:your_service/services/crud.dart';
 
 class BuyPage extends StatefulWidget {
-  final String cat;
-
   final User user;
-
-  const BuyPage({required this.cat, required this.user});
+  final dynamic list;
+  final int i;
+  const BuyPage({required this.user, required this.i, required this.list});
 
   @override
   _BuyPageState createState() => _BuyPageState();
@@ -23,12 +24,12 @@ class _BuyPageState extends State<BuyPage> {
   @override
   void initState() {
     _currentUser = widget.user;
-
     super.initState();
   }
 
   int currentStep = 0;
   String groupValue = "";
+
   Widget title({required String text, required Icon icon}) {
     return Row(
       children: [
@@ -76,6 +77,8 @@ class _BuyPageState extends State<BuyPage> {
     );
   }
 
+  final Stream<QuerySnapshot> collection = FirebaseCrud.readWorker();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -83,645 +86,630 @@ class _BuyPageState extends State<BuyPage> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text(''),
+        title: Text(
+          'Buy',
+          style: GoogleFonts.comfortaa(color: Colors.black),
+        ),
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Form(
-        key: buyNow,
-        child: Theme(
-          data: ThemeData(
-            colorScheme: ColorScheme.light(primary: blackColor),
-          ),
-          child: Stepper(
-            physics: const BouncingScrollPhysics(),
-            elevation: 1,
-            type: StepperType.horizontal,
-            currentStep: currentStep,
-            controlsBuilder: (context, details) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Row(
-                  children: [
-                    if (currentStep != 0)
-                      Expanded(
-                        child: ElevatedButton(
-                          child: Text(
-                            "BACK",
-                            style: GoogleFonts.comfortaa(
-                                fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              if (currentStep > 0) currentStep--;
-                            });
-                          },
+      body: StreamBuilder(
+          stream: collection,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return Form(
+                key: buyNow,
+                child: Theme(
+                  data: ThemeData(
+                    colorScheme: ColorScheme.light(primary: blackColor),
+                  ),
+                  child: Stepper(
+                    physics: const BouncingScrollPhysics(),
+                    elevation: 1,
+                    type: StepperType.horizontal,
+                    currentStep: currentStep,
+                    controlsBuilder: (context, details) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          children: [
+                            if (currentStep != 0)
+                              Expanded(
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "BACK",
+                                    style: GoogleFonts.comfortaa(
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (currentStep > 0) currentStep--;
+                                    });
+                                  },
+                                ),
+                              ),
+                            if (currentStep != 0) const SizedBox(width: 15),
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text(
+                                  currentStep == 2 ? "CONFIRM" : "SAVE & NEXT",
+                                  style: GoogleFonts.comfortaa(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (currentStep == 0) {
+                                      if (buyNow.currentState!.validate()) {
+                                        if (currentStep < 2) currentStep++;
+                                        buyNow.currentState!.save();
+                                      }
+                                    } else if (currentStep == 1) {
+                                      if (groupValue != "") {
+                                        if (currentStep < 2) currentStep++;
+                                      }
+                                    } else {
+                                      if (currentStep < 2) currentStep++;
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                HomePage(
+                                                  user: widget.user,
+                                                  cat: '',
+                                                )),
+                                        ModalRoute.withName('/'),
+                                      );
+                                      FirebaseCrud.addOrder(
+                                        name: widget.list[widget.i]['Name'],
+                                      );
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    if (currentStep != 0) const SizedBox(width: 15),
-                    Expanded(
-                      child: ElevatedButton(
-                        child: Text(
-                          currentStep == 2 ? "CONFIRM" : "SAVE & NEXT",
+                      );
+                    },
+                    steps: [
+                      Step(
+                        state: (currentStep > 0)
+                            ? StepState.complete
+                            : StepState.indexed,
+                        isActive: currentStep >= 0,
+                        title: Text(
+                          "Address",
                           style: GoogleFonts.comfortaa(
-                              fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            if (currentStep == 0) {
-                              if (buyNow.currentState!.validate()) {
-                                if (currentStep < 2) currentStep++;
-                                buyNow.currentState!.save();
-                              }
-                            } else if (currentStep == 1) {
-                              if (groupValue != "") {
-                                if (currentStep < 2) currentStep++;
-                              }
-                            } else {
-                              if (currentStep < 2) currentStep++;
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OrderDone(
-                                          user: widget.user,
-                                        )),
-                              );
-                            }
-                          });
-                        },
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            title(
+                                text: "Contact Details",
+                                icon: const Icon(CupertinoIcons.phone)),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              initialValue: userName,
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Please Enter Your Name";
+                                }
+                                return null;
+                              },
+                              style: GoogleFonts.comfortaa(
+                                color: blackColor,
+                                fontSize: 18,
+                              ),
+                              decoration: InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: blackColor,
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: blackColor,
+                                  ),
+                                ),
+                                hintText: "Full Name",
+                                hintStyle: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 16,
+                                ),
+                                errorStyle: GoogleFonts.comfortaa(),
+                              ),
+                              onSaved: (val) {
+                                setState(() {
+                                  userName = val.toString();
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              keyboardType: TextInputType.phone,
+                              initialValue: userPhone,
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Please Enter Your Phone Number";
+                                }
+                                return null;
+                              },
+                              style: GoogleFonts.comfortaa(
+                                color: blackColor,
+                                fontSize: 18,
+                              ),
+                              decoration: InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: blackColor),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: blackColor,
+                                  ),
+                                ),
+                                hintText: "Phone Number",
+                                hintStyle: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 16,
+                                ),
+                                errorStyle: GoogleFonts.comfortaa(),
+                              ),
+                              onSaved: (val) {
+                                setState(() {
+                                  userPhone = val.toString();
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 30),
+                            title(
+                                text: "Address",
+                                icon: const Icon(CupertinoIcons.location)),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              keyboardType: TextInputType.name,
+                              initialValue: userAdd,
+                              validator: (val) {
+                                if (val!.isEmpty) {
+                                  return "Please Enter Your Address";
+                                }
+                                return null;
+                              },
+                              style: GoogleFonts.comfortaa(
+                                color: blackColor,
+                                fontSize: 18,
+                              ),
+                              decoration: InputDecoration(
+                                border: const UnderlineInputBorder(),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: blackColor,
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: blackColor,
+                                  ),
+                                ),
+                                hintText: "Address",
+                                hintStyle: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 16,
+                                ),
+                                errorStyle: GoogleFonts.comfortaa(),
+                              ),
+                              onSaved: (val) {
+                                setState(() {
+                                  userAdd = val.toString();
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    initialValue: userPinCode,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return "Please Enter Pin Code";
+                                      }
+                                      return null;
+                                    },
+                                    style: GoogleFonts.comfortaa(
+                                      color: blackColor,
+                                      fontSize: 18,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      hintText: "Pin Code",
+                                      hintStyle: GoogleFonts.comfortaa(
+                                        color: greyColor,
+                                        fontSize: 16,
+                                      ),
+                                      errorStyle: GoogleFonts.comfortaa(),
+                                    ),
+                                    onSaved: (val) {
+                                      setState(() {
+                                        userPinCode = val.toString();
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 30),
+                                Expanded(
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.name,
+                                    initialValue: userCity,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return "Please Enter Your City";
+                                      }
+                                      return null;
+                                    },
+                                    style: GoogleFonts.comfortaa(
+                                      color: blackColor,
+                                      fontSize: 18,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      hintText: "City",
+                                      hintStyle: GoogleFonts.comfortaa(
+                                        color: greyColor,
+                                        fontSize: 16,
+                                      ),
+                                      errorStyle: GoogleFonts.comfortaa(),
+                                    ),
+                                    onSaved: (val) {
+                                      setState(() {
+                                        userCity = val.toString();
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.name,
+                                    initialValue: userState,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return "Please Enter Your State";
+                                      }
+                                      return null;
+                                    },
+                                    style: GoogleFonts.comfortaa(
+                                      color: blackColor,
+                                      fontSize: 18,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      hintText: "State",
+                                      hintStyle: GoogleFonts.comfortaa(
+                                        color: greyColor,
+                                        fontSize: 16,
+                                      ),
+                                      errorStyle: GoogleFonts.comfortaa(),
+                                    ),
+                                    onSaved: (val) {
+                                      setState(() {
+                                        userState = val.toString();
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 30),
+                                Expanded(
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.name,
+                                    initialValue: userCountry,
+                                    validator: (val) {
+                                      if (val!.isEmpty) {
+                                        return "Please Enter Your Country";
+                                      }
+                                      return null;
+                                    },
+                                    style: GoogleFonts.comfortaa(
+                                      color: blackColor,
+                                      fontSize: 18,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: const UnderlineInputBorder(),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: blackColor,
+                                        ),
+                                      ),
+                                      hintText: "Country",
+                                      hintStyle: GoogleFonts.comfortaa(
+                                        color: greyColor,
+                                        fontSize: 16,
+                                      ),
+                                      errorStyle: GoogleFonts.comfortaa(),
+                                    ),
+                                    onSaved: (val) {
+                                      setState(() {
+                                        userCountry = val.toString();
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Step(
+                        state: (currentStep > 1)
+                            ? StepState.complete
+                            : StepState.indexed,
+                        isActive: currentStep >= 1,
+                        title: Text(
+                          "Payment",
+                          style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        content: Column(
+                          children: [
+                            payment(
+                                text: "UPI (GPay / PhonePe)",
+                                icon: const Icon(CupertinoIcons.briefcase,
+                                    size: 26),
+                                value: 'UPI (GPay / PhonePe)'),
+                            payment(
+                                text: "Wallet",
+                                icon: const Icon(
+                                    Icons.account_balance_wallet_outlined,
+                                    size: 26),
+                                value: 'Wallet'),
+                            payment(
+                                text: "Debit / Credit Card",
+                                icon: const Icon(Icons.credit_card_rounded,
+                                    size: 26),
+                                value: 'Debit / Credit Card'),
+                            payment(
+                                text: "Net Banking",
+                                icon: const Icon(Icons.account_balance_outlined,
+                                    size: 26),
+                                value: 'Net Banking'),
+                            payment(
+                                text: "Cash on Delivery",
+                                icon: const Icon(
+                                    CupertinoIcons.money_dollar_circle,
+                                    size: 26),
+                                value: 'Cash on Delivery'),
+                          ],
+                        ),
+                      ),
+                      Step(
+                        state: (currentStep > 2)
+                            ? StepState.complete
+                            : StepState.indexed,
+                        isActive: currentStep >= 2,
+                        title: Text(
+                          "Summary",
+                          style: GoogleFonts.comfortaa(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        content: Column(
+                          children: [
+                            SizedBox(
+                              height: 100,
+                              width: width,
+                              child: Row(
+                                children: [
+                                  Stack(
+                                    alignment: const Alignment(1, 0.9),
+                                    children: [
+                                      const CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage: NetworkImage(
+                                            'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: whiteColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                            CupertinoIcons.add_circled_solid,
+                                            size: 30,
+                                            color: blackColor),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      AutoSizeText(
+                                        '${_currentUser.displayName}',
+                                        style: GoogleFonts.comfortaa(
+                                          color: blackColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      AutoSizeText(
+                                        '${_currentUser.email}',
+                                        style: GoogleFonts.comfortaa(
+                                          color: blackColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              height: 1,
+                              color: const Color(0xff111416),
+                            ),
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Delivery Address",
+                                style: GoogleFonts.comfortaa(
+                                  color: blackColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: AutoSizeText(
+                                "$userName +91 $userPhone",
+                                style: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "$userAdd, $userCity, $userState, $userCountry - $userPinCode",
+                                style: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              height: 1,
+                              color: const Color(0xff111416),
+                            ),
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Payment Mode",
+                                style: GoogleFonts.comfortaa(
+                                  color: blackColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                groupValue,
+                                style: GoogleFonts.comfortaa(
+                                  color: greyColor,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              height: 1,
+                              color: const Color(0xff111416),
+                            ),
+                            const SizedBox(height: 20),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Price Details",
+                                style: GoogleFonts.comfortaa(
+                                  color: blackColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Text(
+                                  "Total Price",
+                                  style: GoogleFonts.comfortaa(
+                                    color: greyColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  widget.list[widget.i]['Price'],
+                                  style: GoogleFonts.comfortaa(
+                                    color: blackColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
-            },
-            steps: [
-              Step(
-                state:
-                    (currentStep > 0) ? StepState.complete : StepState.indexed,
-                isActive: currentStep >= 0,
-                title: Text(
-                  "Address",
-                  style: GoogleFonts.comfortaa(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    title(
-                        text: "Contact Details",
-                        icon: const Icon(CupertinoIcons.phone)),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      initialValue: userName,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return "Please Enter Your Name";
-                        }
-                        return null;
-                      },
-                      style: GoogleFonts.comfortaa(
-                        color: blackColor,
-                        fontSize: 18,
-                      ),
-                      decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blackColor,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blackColor,
-                          ),
-                        ),
-                        hintText: "Full Name",
-                        hintStyle: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 16,
-                        ),
-                        errorStyle: GoogleFonts.comfortaa(),
-                      ),
-                      onSaved: (val) {
-                        setState(() {
-                          userName = val.toString();
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      initialValue: userPhone,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return "Please Enter Your Phone Number";
-                        }
-                        return null;
-                      },
-                      style: GoogleFonts.comfortaa(
-                        color: blackColor,
-                        fontSize: 18,
-                      ),
-                      decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: blackColor),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blackColor,
-                          ),
-                        ),
-                        hintText: "Phone Number",
-                        hintStyle: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 16,
-                        ),
-                        errorStyle: GoogleFonts.comfortaa(),
-                      ),
-                      onSaved: (val) {
-                        setState(() {
-                          userPhone = val.toString();
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 30),
-                    title(
-                        text: "Address",
-                        icon: const Icon(CupertinoIcons.location)),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      initialValue: userAdd,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return "Please Enter Your Address";
-                        }
-                        return null;
-                      },
-                      style: GoogleFonts.comfortaa(
-                        color: blackColor,
-                        fontSize: 18,
-                      ),
-                      decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blackColor,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: blackColor,
-                          ),
-                        ),
-                        hintText: "Address",
-                        hintStyle: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 16,
-                        ),
-                        errorStyle: GoogleFonts.comfortaa(),
-                      ),
-                      onSaved: (val) {
-                        setState(() {
-                          userAdd = val.toString();
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            initialValue: userPinCode,
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please Enter Pin Code";
-                              }
-                              return null;
-                            },
-                            style: GoogleFonts.comfortaa(
-                              color: blackColor,
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              hintText: "Pin Code",
-                              hintStyle: GoogleFonts.comfortaa(
-                                color: greyColor,
-                                fontSize: 16,
-                              ),
-                              errorStyle: GoogleFonts.comfortaa(),
-                            ),
-                            onSaved: (val) {
-                              setState(() {
-                                userPinCode = val.toString();
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            initialValue: userCity,
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please Enter Your City";
-                              }
-                              return null;
-                            },
-                            style: GoogleFonts.comfortaa(
-                              color: blackColor,
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              hintText: "City",
-                              hintStyle: GoogleFonts.comfortaa(
-                                color: greyColor,
-                                fontSize: 16,
-                              ),
-                              errorStyle: GoogleFonts.comfortaa(),
-                            ),
-                            onSaved: (val) {
-                              setState(() {
-                                userCity = val.toString();
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            initialValue: userState,
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please Enter Your State";
-                              }
-                              return null;
-                            },
-                            style: GoogleFonts.comfortaa(
-                              color: blackColor,
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              hintText: "State",
-                              hintStyle: GoogleFonts.comfortaa(
-                                color: greyColor,
-                                fontSize: 16,
-                              ),
-                              errorStyle: GoogleFonts.comfortaa(),
-                            ),
-                            onSaved: (val) {
-                              setState(() {
-                                userState = val.toString();
-                              });
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 30),
-                        Expanded(
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            initialValue: userCountry,
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return "Please Enter Your Country";
-                              }
-                              return null;
-                            },
-                            style: GoogleFonts.comfortaa(
-                              color: blackColor,
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: blackColor,
-                                ),
-                              ),
-                              hintText: "Country",
-                              hintStyle: GoogleFonts.comfortaa(
-                                color: greyColor,
-                                fontSize: 16,
-                              ),
-                              errorStyle: GoogleFonts.comfortaa(),
-                            ),
-                            onSaved: (val) {
-                              setState(() {
-                                userCountry = val.toString();
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Step(
-                state:
-                    (currentStep > 1) ? StepState.complete : StepState.indexed,
-                isActive: currentStep >= 1,
-                title: Text(
-                  "Payment",
-                  style: GoogleFonts.comfortaa(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                content: Column(
-                  children: [
-                    payment(
-                        text: "UPI (GPay / PhonePe)",
-                        icon: const Icon(CupertinoIcons.briefcase, size: 26),
-                        value: 'UPI (GPay / PhonePe)'),
-                    payment(
-                        text: "Wallet",
-                        icon: const Icon(Icons.account_balance_wallet_outlined,
-                            size: 26),
-                        value: 'Wallet'),
-                    payment(
-                        text: "Debit / Credit Card",
-                        icon: const Icon(Icons.credit_card_rounded, size: 26),
-                        value: 'Debit / Credit Card'),
-                    payment(
-                        text: "Net Banking",
-                        icon: const Icon(Icons.account_balance_outlined,
-                            size: 26),
-                        value: 'Net Banking'),
-                    payment(
-                        text: "Cash on Delivery",
-                        icon: const Icon(CupertinoIcons.money_dollar_circle,
-                            size: 26),
-                        value: 'Cash on Delivery'),
-                  ],
-                ),
-              ),
-              Step(
-                state:
-                    (currentStep > 2) ? StepState.complete : StepState.indexed,
-                isActive: currentStep >= 2,
-                title: Text(
-                  "Summary",
-                  style: GoogleFonts.comfortaa(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                content: Column(
-                  children: [
-                    SizedBox(
-                      height: 100,
-                      width: width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Stack(
-                            alignment: const Alignment(1, 0.9),
-                            children: [
-                              const CircleAvatar(
-                                radius: 40,
-                                backgroundImage: NetworkImage(
-                                    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: whiteColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(CupertinoIcons.add_circled_solid,
-                                    size: 30, color: blackColor),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(
-                                '${_currentUser.displayName}',
-                                style: GoogleFonts.comfortaa(
-                                  color: blackColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              AutoSizeText(
-                                '${_currentUser.email}',
-                                style: GoogleFonts.comfortaa(
-                                  color: blackColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 1,
-                      color: const Color(0xff111416),
-                    ),
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Delivery Address",
-                        style: GoogleFonts.comfortaa(
-                          color: blackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: AutoSizeText(
-                        "$userName +91 $userPhone",
-                        style: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "$userAdd, $userCity, $userState, $userCountry - $userPinCode",
-                        style: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 1,
-                      color: const Color(0xff111416),
-                    ),
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Payment Mode",
-                        style: GoogleFonts.comfortaa(
-                          color: blackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        groupValue,
-                        style: GoogleFonts.comfortaa(
-                          color: greyColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 1,
-                      color: const Color(0xff111416),
-                    ),
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Price Details",
-                        style: GoogleFonts.comfortaa(
-                          color: blackColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text(
-                          "Total Price",
-                          style: GoogleFonts.comfortaa(
-                            color: greyColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "+ 1000",
-                          style: GoogleFonts.comfortaa(
-                            color: blackColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text(
-                          "Total Discounts",
-                          style: GoogleFonts.comfortaa(
-                            color: Colors.red,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "- \$${0}",
-                          style: GoogleFonts.comfortaa(
-                            color: Colors.red,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: 1,
-                      color: Colors.grey.shade600,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Text(
-                          "Order Total",
-                          style: GoogleFonts.comfortaa(
-                            color: blackColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "total price",
-                          style: GoogleFonts.comfortaa(
-                            color: blackColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            }
+            return Container();
+          }),
       backgroundColor: Colors.white,
     );
   }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/screens/details.dart';
+import 'package:your_service/screens/cleaning.dart';
 import 'package:your_service/services/crud.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -49,63 +49,66 @@ class _CategoryPageState extends State<CategoryPage> {
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: 180,
-                        height: 200,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailPage(
-                                        user: widget.user,
-                                        cat: snapshot.data!.docs[index]
-                                            ['Category'],
-                                      )),
-                            );
-                          },
-                          child: Card(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                            ),
-                            color: Colors.grey.shade200,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: w,
-                                  height: 162,
-                                  child: Card(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.network(
-                                            snapshot.data!.docs[index]['Image'],
+                      return (snapshot.data!.docs[index]['Id'] == '1')
+                          ? SizedBox(
+                              width: 180,
+                              height: 200,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CleaningPage(
+                                              user: widget.user,
+                                              cat: snapshot.data!.docs[index]
+                                                  ['Category'],
+                                            )),
+                                  );
+                                },
+                                child: Card(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  color: Colors.grey.shade200,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: w,
+                                        height: 162,
+                                        child: Card(
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                height: 100,
+                                                width: 100,
+                                                child: Image.network(
+                                                  snapshot.data!.docs[index]
+                                                      ['Image'],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      Text(
+                                        snapshot.data!.docs[index]['Category'],
+                                        style: GoogleFonts.comfortaa(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text(
-                                  snapshot.data!.docs[index]['Category'],
-                                  style: GoogleFonts.comfortaa(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                              ),
+                            )
+                          : Container();
                     }),
               );
             }

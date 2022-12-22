@@ -1,96 +1,239 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:your_service/global.dart';
+import 'package:your_service/admin/edit.dart';
+import 'package:your_service/models/workers.dart';
+import 'package:your_service/services/crud.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage();
-
   @override
-  _OrderPageState createState() => _OrderPageState();
+  State<StatefulWidget> createState() {
+    return _OrderPage();
+  }
 }
 
-class _OrderPageState extends State<OrderPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _OrderPage extends State<OrderPage> {
+  final Stream<QuerySnapshot> collectionRef = FirebaseCrud.readOrder();
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          'My Order',
+          'Orders',
           style: GoogleFonts.comfortaa(color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: addOrder.length,
-        itemBuilder: (context, i) {
-          return SizedBox(
-            width: w,
-            height: h / 10,
-            child: GestureDetector(
-              onTap: () {},
-              child: Card(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                ),
-                color: Colors.grey.shade200,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: w / 4,
-                      height: h,
-                      child: Card(
-                        elevation: 0,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+      body: StreamBuilder(
+        stream: collectionRef,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: 180,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditPage()),
+                          );
+                        },
+                        child: Card(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          color: Colors.grey.shade200,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: w,
+                                height: 162,
+                                child: Card(
+                                  elevation: 0,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: 150,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              // child: Image.network(
+                                              //   snapshot.data!.docs[index]
+                                              //       ['Image'],
+                                              // ),
+                                            ),
+                                            Text(
+                                              snapshot.data!.docs[index]
+                                                  ['Name'],
+                                              style: GoogleFonts.comfortaa(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 200,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // Text(
+                                            //   'Category : ${snapshot.data!.docs[index]['Category']}',
+                                            //   style: GoogleFonts.comfortaa(
+                                            //     fontSize: 14,
+                                            //   ),
+                                            // ),
+                                            // Text(
+                                            //   'Service : ${snapshot.data!.docs[index]['Service']}',
+                                            //   style: GoogleFonts.comfortaa(
+                                            //     fontSize: 14,
+                                            //   ),
+                                            // ),
+                                            // Text(
+                                            //   'Experience : ${snapshot.data!.docs[index]['Experience']}',
+                                            //   style: GoogleFonts.comfortaa(
+                                            //     fontSize: 14,
+                                            //   ),
+                                            // ),
+                                            // Text(
+                                            //   'Price : ${snapshot.data!.docs[index]['Price']}',
+                                            //   style: GoogleFonts.comfortaa(
+                                            //     fontSize: 14,
+                                            //   ),
+                                            // ),
+                                            // Text(
+                                            //   'Rating : ${snapshot.data!.docs[index]['Rating']}',
+                                            //   style: GoogleFonts.comfortaa(
+                                            //     fontSize: 14,
+                                            //   ),
+                                            // ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () => Navigator
+                                                            .pushAndRemoveUntil<
+                                                                dynamic>(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                EditPage(
+                                                              worker: Workers(
+                                                                  uid: snapshot
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .id,
+                                                                  name: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Name'],
+                                                                  category: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'Category'],
+                                                                  image: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Image'],
+                                                                  rating: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      ['Rating'],
+                                                                  service: snapshot.data!.docs[index]['Service'],
+                                                                  experience: snapshot.data!.docs[index]['Experience'],
+                                                                  time: snapshot.data!.docs[index]['Time'],
+                                                                  details: snapshot.data!.docs[index]['Details'],
+                                                                  gender: snapshot.data!.docs[index]['Gender'],
+                                                                  id: snapshot.data!.docs[index]['Id'],
+                                                                  wimage: snapshot.data!.docs[index]['WImage'],
+                                                                  price: snapshot.data!.docs[index]['Price']),
+                                                            ),
+                                                          ),
+                                                          (route) =>
+                                                              true, //if you want to disable back feature set to false
+                                                        ),
+                                                    icon: const Icon(
+                                                      Icons.edit,
+                                                      color: Colors.green,
+                                                    )),
+                                                IconButton(
+                                                    onPressed: () async {
+                                                      var response =
+                                                          await FirebaseCrud
+                                                              .deleteOrder(
+                                                                  docId: snapshot
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .id);
+                                                      if (response.code !=
+                                                          200) {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                content: Text(
+                                                                    response
+                                                                        .message
+                                                                        .toString()),
+                                                              );
+                                                            });
+                                                      }
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    )),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Image.asset(addOrder[i]['img']),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            addOrder[i]['cat'],
-                            style: GoogleFonts.comfortaa(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            addOrder[i]['rate'],
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.comfortaa(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            addOrder[i]['val'],
-                            style: GoogleFonts.comfortaa(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          );
+                    );
+                  }),
+            );
+          }
+
+          return Container();
         },
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

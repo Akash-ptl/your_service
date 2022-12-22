@@ -31,7 +31,7 @@ class _CleaningPageState extends State<CleaningPage> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          'Cleaning',
+          '${widget.cat}Service',
           style: GoogleFonts.comfortaa(color: Colors.black),
         ),
         centerTitle: true,
@@ -63,7 +63,7 @@ class _CleaningPageState extends State<CleaningPage> {
                                         builder: (context) => ServicePage(
                                               user: widget.user,
                                               cat: snapshot.data!.docs[index]
-                                                  ['Category'],
+                                                  ['Service'],
                                             )),
                                   );
                                 },
