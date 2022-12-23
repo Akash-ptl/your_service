@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:givestarreviews/givestarreviews.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/global.dart';
+import 'package:your_service/services/crud.dart';
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage();
@@ -17,6 +18,8 @@ class _ReviewPageState extends State<ReviewPage> {
   }
 
   final reviewKey = GlobalKey<FormState>();
+  final titlecontroller = TextEditingController();
+  final briefcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +80,7 @@ class _ReviewPageState extends State<ReviewPage> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: TextFormField(
+                controller: titlecontroller,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return "Please Enter The Review Title";
@@ -117,6 +121,7 @@ class _ReviewPageState extends State<ReviewPage> {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: TextFormField(
+                controller: briefcontroller,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return "Please Enter The Review Title";
@@ -150,9 +155,11 @@ class _ReviewPageState extends State<ReviewPage> {
                 width: w,
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      if (reviewKey.currentState!.validate()) {}
-                    });
+                    if (reviewKey.currentState!.validate()) {}
+                    FirebaseCrud.addReview(
+                        brief: briefcontroller.text,
+                        title: titlecontroller.text);
+                    Navigator.pop(context);
                   },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.black),

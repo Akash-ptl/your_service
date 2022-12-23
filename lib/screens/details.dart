@@ -22,7 +22,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   final Stream<QuerySnapshot> collection = FirebaseCrud.readWorker();
-
+  bool fav = false;
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -50,7 +50,8 @@ class _DetailPageState extends State<DetailPage> {
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return (widget.cat == snapshot.data!.docs[index]['Service'])
+                      return (widget.cat ==
+                              snapshot.data!.docs[index]['Service'])
                           ? SizedBox(
                               width: 180,
                               child: Card(
@@ -75,7 +76,7 @@ class _DetailPageState extends State<DetailPage> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: h / 2.2,
+                                      height: h / 2,
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Column(
@@ -94,6 +95,38 @@ class _DetailPageState extends State<DetailPage> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: IconButton(
+                                                  splashRadius: 1,
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      fav = !fav;
+                                                    });
+                                                    FirebaseCrud.addFavourite(
+                                                      name: snapshot.data!
+                                                          .docs[index]['Name'],
+                                                      category: snapshot
+                                                              .data!.docs[index]
+                                                          ['Category'],
+                                                      service: snapshot
+                                                              .data!.docs[index]
+                                                          ['Service'],
+                                                      image: snapshot.data!
+                                                          .docs[index]['Image'],
+                                                    );
+                                                  },
+                                                  icon: (fav == false)
+                                                      ? const Icon(
+                                                          Icons
+                                                              .favorite_outline,
+                                                          size: 30,
+                                                        )
+                                                      : const Icon(
+                                                          Icons.favorite,
+                                                          size: 30,
+                                                        )),
                                             ),
                                             Text(
                                               'Category : ${snapshot.data!.docs[index]['Category']}',

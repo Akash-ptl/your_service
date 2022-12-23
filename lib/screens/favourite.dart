@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/services/crud.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage();
+class FavouritePage extends StatefulWidget {
+  const FavouritePage();
 
   @override
-  _HistoryPageState createState() => _HistoryPageState();
+  _FavouritePageState createState() => _FavouritePageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _FavouritePageState extends State<FavouritePage> {
   @override
   void initState() {
     super.initState();
   }
 
-  final Stream<QuerySnapshot> collectionhistory = FirebaseCrud.readHistory();
+  final Stream<QuerySnapshot> collectionfavourite =
+      FirebaseCrud.readFavourite();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +25,17 @@ class _HistoryPageState extends State<HistoryPage> {
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(
+          'My Favourite',
+          style: GoogleFonts.comfortaa(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: StreamBuilder(
-        stream: collectionhistory,
+        stream: collectionfavourite,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return Padding(
@@ -98,12 +106,6 @@ class _HistoryPageState extends State<HistoryPage> {
                                             ),
                                             Text(
                                               'Service : ${snapshot.data!.docs[index]['Service']}',
-                                              style: GoogleFonts.comfortaa(
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            Text(
-                                              'Price : ${snapshot.data!.docs[index]['Price']}',
                                               style: GoogleFonts.comfortaa(
                                                 fontSize: 14,
                                               ),

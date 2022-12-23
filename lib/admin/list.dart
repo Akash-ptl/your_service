@@ -42,7 +42,6 @@ class _ListPage extends State<ListPage> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     return SizedBox(
-                      width: 180,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -68,7 +67,8 @@ class _ListPage extends State<ListPage> {
                                         BorderRadius.all(Radius.circular(12)),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
                                         width: 150,
@@ -88,7 +88,7 @@ class _ListPage extends State<ListPage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 200,
+                                        width: 180,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -125,89 +125,83 @@ class _ListPage extends State<ListPage> {
                                                 fontSize: 14,
                                               ),
                                             ),
-                                            Row(
-                                              children: [
-                                                IconButton(
-                                                    onPressed: () => Navigator
-                                                            .pushAndRemoveUntil<
-                                                                dynamic>(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (BuildContext
-                                                                    context) =>
-                                                                EditPage(
-                                                              worker: Workers(
-                                                                  uid: snapshot
-                                                                      .data!
-                                                                      .docs[
-                                                                          index]
-                                                                      .id,
-                                                                  name: snapshot
-                                                                          .data!
-                                                                          .docs[index]
-                                                                      ['Name'],
-                                                                  category: snapshot
-                                                                          .data!
-                                                                          .docs[index]
-                                                                      [
-                                                                      'Category'],
-                                                                  image: snapshot
-                                                                          .data!
-                                                                          .docs[index]
-                                                                      ['Image'],
-                                                                  rating: snapshot
-                                                                          .data!
-                                                                          .docs[index]
-                                                                      ['Rating'],
-                                                                  service: snapshot.data!.docs[index]['Service'],
-                                                                  experience: snapshot.data!.docs[index]['Experience'],
-                                                                  time: snapshot.data!.docs[index]['Time'],
-                                                                  details: snapshot.data!.docs[index]['Details'],
-                                                                  gender: snapshot.data!.docs[index]['Gender'],
-                                                                  id: snapshot.data!.docs[index]['Id'],
-                                                                  wimage: snapshot.data!.docs[index]['WImage'],
-                                                                  price: snapshot.data!.docs[index]['Price']),
-                                                            ),
-                                                          ),
-                                                          (route) =>
-                                                              true, //if you want to disable back feature set to false
-                                                        ),
-                                                    icon: const Icon(
-                                                      Icons.edit,
-                                                      color: Colors.green,
-                                                    )),
-                                                IconButton(
-                                                    onPressed: () async {
-                                                      var response =
-                                                          await FirebaseCrud
-                                                              .deleteWorker(
-                                                                  docId: snapshot
-                                                                      .data!
-                                                                      .docs[
-                                                                          index]
-                                                                      .id);
-                                                      if (response.code !=
-                                                          200) {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder: (context) {
-                                                              return AlertDialog(
-                                                                content: Text(
-                                                                    response
-                                                                        .message
-                                                                        .toString()),
-                                                              );
-                                                            });
-                                                      }
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.delete,
-                                                      color: Colors.red,
-                                                    )),
-                                              ],
-                                            )
                                           ],
                                         ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          IconButton(
+                                              onPressed: () =>
+                                                  Navigator.pushAndRemoveUntil<
+                                                      dynamic>(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          EditPage(
+                                                        worker: Workers(
+                                                            uid: snapshot.data!
+                                                                .docs[index].id,
+                                                            name: snapshot.data!.docs[index]
+                                                                ['Name'],
+                                                            category: snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                ['Category'],
+                                                            image: snapshot.data!.docs[index]
+                                                                ['Image'],
+                                                            rating: snapshot.data!.docs[index]
+                                                                ['Rating'],
+                                                            service:
+                                                                snapshot.data!.docs[index]
+                                                                    ['Service'],
+                                                            experience: snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                ['Experience'],
+                                                            time: snapshot.data!.docs[index]['Time'],
+                                                            details: snapshot.data!.docs[index]['Details'],
+                                                            gender: snapshot.data!.docs[index]['Gender'],
+                                                            id: snapshot.data!.docs[index]['Id'],
+                                                            wimage: snapshot.data!.docs[index]['WImage'],
+                                                            price: snapshot.data!.docs[index]['Price']),
+                                                      ),
+                                                    ),
+                                                    (route) =>
+                                                        true, //if you want to disable back feature set to false
+                                                  ),
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: Colors.green,
+                                              )),
+                                          IconButton(
+                                              onPressed: () async {
+                                                var response =
+                                                    await FirebaseCrud
+                                                        .deleteWorker(
+                                                            docId: snapshot
+                                                                .data!
+                                                                .docs[index]
+                                                                .id);
+                                                if (response.code != 200) {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          content: Text(response
+                                                              .message
+                                                              .toString()),
+                                                        );
+                                                      });
+                                                }
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              )),
+                                        ],
                                       ),
                                     ],
                                   ),

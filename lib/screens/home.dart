@@ -13,6 +13,7 @@ import 'package:your_service/screens/category.dart';
 import 'package:your_service/screens/cleaning.dart';
 import 'package:your_service/screens/contact.dart';
 import 'package:your_service/screens/details.dart';
+import 'package:your_service/screens/favourite.dart';
 import 'package:your_service/screens/login_page.dart';
 import 'package:your_service/screens/order.dart';
 import 'package:your_service/screens/review.dart';
@@ -158,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                             scrollDirection: Axis.horizontal,
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              return (index < 7)
+                              return (index < 8)
                                   ? (snapshot.data!.docs[index]['Id'] == '1')
                                       ? SizedBox(
                                           width: 180,
@@ -592,7 +593,20 @@ class _HomePageState extends State<HomePage> {
                         title:
                             Text(' Order List', style: GoogleFonts.comfortaa()),
                         onTap: () {
-                          orderindex = 1;
+                          orderindex = 0;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OrderPage()),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.view_list),
+                        title: Text(' Review List ',
+                            style: GoogleFonts.comfortaa()),
+                        onTap: () {
+                          orderindex = 2;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -689,11 +703,23 @@ class _HomePageState extends State<HomePage> {
                         title: Text(' My Bookings ',
                             style: GoogleFonts.comfortaa()),
                         onTap: () {
-                          orderindex = 0;
+                          orderindex = 1;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => OrderPage()),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.favorite),
+                        title: Text(' My Favourites ',
+                            style: GoogleFonts.comfortaa()),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FavouritePage()),
                           );
                         },
                       ),

@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/global.dart';
+import 'package:your_service/screens/login_page.dart';
+import 'package:your_service/utils/fire_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage();
@@ -44,7 +49,7 @@ class _BookingPageState extends State<BookingPage> {
                       child: Icon(
                         Icons.arrow_back_ios_new,
                         size: 24,
-                        color: black,
+                        color: blackColor,
                       ),
                     ),
                     const SizedBox(
@@ -82,7 +87,7 @@ class _BookingPageState extends State<BookingPage> {
                         const EdgeInsets.only(left: 18, right: 18, top: 19),
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: black, width: 2),
+                          border: Border.all(color: blackColor, width: 2),
                           borderRadius: BorderRadius.circular(15)),
                       child: TableCalendar(
                         calendarFormat: CalendarFormat.week,
@@ -115,7 +120,7 @@ class _BookingPageState extends State<BookingPage> {
                         calendarStyle: CalendarStyle(
                           isTodayHighlighted: true,
                           selectedDecoration: BoxDecoration(
-                              color: black, shape: BoxShape.circle),
+                              color: blackColor, shape: BoxShape.circle),
                           todayDecoration: const BoxDecoration(
                               color: Colors.black26, shape: BoxShape.circle),
                         ),
@@ -171,11 +176,11 @@ class _BookingPageState extends State<BookingPage> {
                                 //   {
                                 //
                                 //   }
-                                // slotColorFixed = (e['slot'] == '0') ? slotColor : black;
+                                // slotColorFixed = (e['slot'] == '0') ? slotColor : blackColor;
                                 // slotColorFixed = (e['slot'] == '1') ? Colors.red : Colors.black;
-                                // slotColorFixed = (e['slot'] == '2') ? slotColor : black;
-                                // slotColorFixed = (e['slot'] == '3') ? slotColor : black;
-                                // slotColorFixed = (e['slot'] == '4') ? slotColor : black;
+                                // slotColorFixed = (e['slot'] == '2') ? slotColor : blackColor;
+                                // slotColorFixed = (e['slot'] == '3') ? slotColor : blackColor;
+                                // slotColorFixed = (e['slot'] == '4') ? slotColor : blackColor;
 
                                 // if(e['slot'] == '0')
                                 //   {
@@ -209,7 +214,7 @@ class _BookingPageState extends State<BookingPage> {
                                 //         //e['slot'] = false;
                                 //       }
                                 //   //slotBook = false;
-                                //   //dateColor = black;
+                                //   //dateColor = blackColor;
                                 // }
                                 // for(no = 0 ; no < date.length ; no++)
                                 //   {
@@ -235,7 +240,7 @@ class _BookingPageState extends State<BookingPage> {
                                 //             }
                                 //             else {
                                 //               e['clr'] = false;
-                                //               dateColor = black;
+                                //               dateColor = blackColor;
                                 //             }
                                 //          // }
                                 //       }
@@ -251,10 +256,10 @@ class _BookingPageState extends State<BookingPage> {
                               //height: 10,
                               //width: 450,
                               decoration: BoxDecoration(
-                                //color: black,
+                                //color: blackColor,
                                 border: Border.all(
                                   //color: dateColor,
-                                  color: (e['clr']) ? selectColor : black,
+                                  color: (e['clr']) ? selectColor : blackColor,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(15),
@@ -300,7 +305,7 @@ class _BookingPageState extends State<BookingPage> {
                             height: h / 20,
                             width: w / 2.8,
                             decoration: BoxDecoration(
-                              color: black,
+                              color: blackColor,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             alignment: Alignment.center,

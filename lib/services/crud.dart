@@ -8,6 +8,8 @@ final CollectionReference _Collectuser = _firestore.collection('Users');
 final CollectionReference _Collectcrsl =
     _firestore.collection('carouselslider');
 final CollectionReference _Collecthistory = _firestore.collection('History');
+final CollectionReference _Collectfav = _firestore.collection('Favourite');
+final CollectionReference _Collectreview = _firestore.collection('Review');
 
 class FirebaseCrud {
   static Future<Response> addWorker({
@@ -82,6 +84,33 @@ class FirebaseCrud {
     return resp;
   }
 
+  static Future<Response> addFavourite({
+    required String name,
+    required String category,
+    required String service,
+    required String image,
+  }) async {
+    Response res = Response();
+    DocumentReference documentR = _Collectfav.doc();
+
+    Map<String, dynamic> favlist = <String, dynamic>{
+      "Name": name,
+      "Category": category,
+      "Service": service,
+      "Image": image,
+    };
+
+    var result = await documentR.set(favlist).whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
+  }
+
   static Future<Response> addHistory({
     required String name,
     required String category,
@@ -124,6 +153,29 @@ class FirebaseCrud {
     };
 
     var result = await documentRe.set(userlist).whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
+  }
+
+  static Future<Response> addReview({
+    required String title,
+    required String brief,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collectreview.doc();
+
+    Map<String, dynamic> reviewlist = <String, dynamic>{
+      "Title": title,
+      "Brief": brief,
+    };
+
+    var result = await documentRe.set(reviewlist).whenComplete(() {
       res.code = 200;
       res.message = "Sucessfully added to the database";
     }).catchError((e) {
@@ -208,6 +260,17 @@ class FirebaseCrud {
     return notesItemCollection.snapshots();
   }
 
+  static Stream<QuerySnapshot> readFavourite() {
+    CollectionReference notesItemCollection = _Collectfav;
+
+    return notesItemCollection.snapshots();
+  }
+
+  static Stream<QuerySnapshot> readReview() {
+    CollectionReference notesItemCollection = _Collectreview;
+
+    return notesItemCollection.snapshots();
+  }
   // static Future<Response> addcategory({
   //   required String name,
   //   required String image,
@@ -293,6 +356,40 @@ class FirebaseCrud {
   }) async {
     Response res = Response();
     DocumentReference documentRe = _Collecthistory.doc(docId);
+
+    await documentRe.delete().whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully Deleted Employee";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
+  }
+
+  static Future<Response> deleteFavourite({
+    required String docId,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collectfav.doc(docId);
+
+    await documentRe.delete().whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully Deleted Employee";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
+  }
+
+  static Future<Response> deleteReview({
+    required String docId,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collectreview.doc(docId);
 
     await documentRe.delete().whenComplete(() {
       res.code = 200;

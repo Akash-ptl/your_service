@@ -792,6 +792,7 @@ class _OrderDoneState extends State<OrderDone> {
           ],
         ),
       ),
+      backgroundColor: Colors.white,
     );
   }
 }
