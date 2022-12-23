@@ -4,6 +4,10 @@ import 'package:your_service/models/response.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final CollectionReference _Collection = _firestore.collection('Workers');
 final CollectionReference _Collect = _firestore.collection('Orders');
+final CollectionReference _Collectuser = _firestore.collection('Users');
+final CollectionReference _Collectcrsl =
+    _firestore.collection('carouselslider');
+final CollectionReference _Collecthistory = _firestore.collection('History');
 
 class FirebaseCrud {
   static Future<Response> addWorker({
@@ -51,12 +55,20 @@ class FirebaseCrud {
 
   static Future<Response> addOrder({
     required String name,
+    required String category,
+    required String price,
+    required String service,
+    required image,
   }) async {
     Response resp = Response();
     DocumentReference documentRef = _Collect.doc();
 
     Map<String, dynamic> list = <String, dynamic>{
       "Name": name,
+      "Category": category,
+      "Price": price,
+      "Service": service,
+      "Image": image,
     };
 
     var result = await documentRef.set(list).whenComplete(() {
@@ -68,6 +80,58 @@ class FirebaseCrud {
     });
 
     return resp;
+  }
+
+  static Future<Response> addHistory({
+    required String name,
+    required String category,
+    required String price,
+    required String service,
+    required image,
+  }) async {
+    Response resp = Response();
+    DocumentReference documentRef = _Collecthistory.doc();
+
+    Map<String, dynamic> history = <String, dynamic>{
+      "Name": name,
+      "Category": category,
+      "Price": price,
+      "Service": service,
+      "Image": image,
+    };
+
+    var result = await documentRef.set(history).whenComplete(() {
+      resp.code = 200;
+      resp.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      resp.code = 500;
+      resp.message = e;
+    });
+
+    return resp;
+  }
+
+  static Future<Response> addUser({
+    required String name,
+    required String email,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collectuser.doc();
+
+    Map<String, dynamic> userlist = <String, dynamic>{
+      "Name": name,
+      "Email": email,
+    };
+
+    var result = await documentRe.set(userlist).whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully added to the database";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
   }
 
   static Future<Response> updateWorker({
@@ -99,7 +163,6 @@ class FirebaseCrud {
       "Rating": rating,
       "Image": image,
       "Id": id,
-      "Id": id,
       "WImage": wimage,
       "Gender": gender,
     };
@@ -121,8 +184,26 @@ class FirebaseCrud {
     return notesItemCollection.snapshots();
   }
 
+  static Stream<QuerySnapshot> readUser() {
+    CollectionReference notesItemCollection = _Collectuser;
+
+    return notesItemCollection.snapshots();
+  }
+
   static Stream<QuerySnapshot> readOrder() {
     CollectionReference notesItemCollection = _Collect;
+
+    return notesItemCollection.snapshots();
+  }
+
+  static Stream<QuerySnapshot> readCrsl() {
+    CollectionReference notesItemCollection = _Collectcrsl;
+
+    return notesItemCollection.snapshots();
+  }
+
+  static Stream<QuerySnapshot> readHistory() {
+    CollectionReference notesItemCollection = _Collecthistory;
 
     return notesItemCollection.snapshots();
   }
@@ -188,5 +269,39 @@ class FirebaseCrud {
     });
 
     return resp;
+  }
+
+  static Future<Response> deleteUser({
+    required String docId,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collectuser.doc(docId);
+
+    await documentRe.delete().whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully Deleted Employee";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
+  }
+
+  static Future<Response> deleteHistory({
+    required String docId,
+  }) async {
+    Response res = Response();
+    DocumentReference documentRe = _Collecthistory.doc(docId);
+
+    await documentRe.delete().whenComplete(() {
+      res.code = 200;
+      res.message = "Sucessfully Deleted Employee";
+    }).catchError((e) {
+      res.code = 500;
+      res.message = e;
+    });
+
+    return res;
   }
 }

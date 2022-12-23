@@ -91,9 +91,9 @@ class _PopularPageState extends State<PopularPage> {
                                               SizedBox(
                                                 height: 100,
                                                 width: 100,
-                                                child: Image.network(
-                                                  category[index]['img'],
-                                                ),
+                                                // child: Image.network(
+                                                //   category[index]['img'],
+                                                // ),
                                               ),
                                             ],
                                           ),

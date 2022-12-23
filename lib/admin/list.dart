@@ -68,8 +68,7 @@ class _ListPage extends State<ListPage> {
                                         BorderRadius.all(Radius.circular(12)),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         width: 150,
@@ -84,13 +83,6 @@ class _ListPage extends State<ListPage> {
                                                 snapshot.data!.docs[index]
                                                     ['Image'],
                                               ),
-                                            ),
-                                            Text(
-                                              snapshot.data!.docs[index]
-                                                  ['Category'],
-                                              style: GoogleFonts.comfortaa(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ],
                                         ),

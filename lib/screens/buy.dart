@@ -64,7 +64,7 @@ class _BuyPageState extends State<BuyPage> {
           const Spacer(),
           Radio(
             value: value,
-            activeColor: blackColor,
+            activeColor: black,
             groupValue: groupValue,
             onChanged: (val) {
               setState(() {
@@ -103,7 +103,7 @@ class _BuyPageState extends State<BuyPage> {
                 key: buyNow,
                 child: Theme(
                   data: ThemeData(
-                    colorScheme: ColorScheme.light(primary: blackColor),
+                    colorScheme: ColorScheme.light(primary: black),
                   ),
                   child: Stepper(
                     physics: const BouncingScrollPhysics(),
@@ -163,6 +163,12 @@ class _BuyPageState extends State<BuyPage> {
                                       );
                                       FirebaseCrud.addOrder(
                                         name: widget.list[widget.i]['Name'],
+                                        category: widget.list[widget.i]
+                                            ['Category'],
+                                        price: widget.list[widget.i]['Price'],
+                                        service: widget.list[widget.i]
+                                            ['Service'],
+                                        image: widget.list[widget.i]['Image'],
                                       );
                                     }
                                   });
@@ -202,19 +208,19 @@ class _BuyPageState extends State<BuyPage> {
                                 return null;
                               },
                               style: GoogleFonts.comfortaa(
-                                color: blackColor,
+                                color: black,
                                 fontSize: 18,
                               ),
                               decoration: InputDecoration(
                                 border: const UnderlineInputBorder(),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: blackColor,
+                                    color: black,
                                   ),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: blackColor,
+                                    color: black,
                                   ),
                                 ),
                                 hintText: "Full Name",
@@ -241,17 +247,17 @@ class _BuyPageState extends State<BuyPage> {
                                 return null;
                               },
                               style: GoogleFonts.comfortaa(
-                                color: blackColor,
+                                color: black,
                                 fontSize: 18,
                               ),
                               decoration: InputDecoration(
                                 border: const UnderlineInputBorder(),
                                 enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: blackColor),
+                                  borderSide: BorderSide(color: black),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: blackColor,
+                                    color: black,
                                   ),
                                 ),
                                 hintText: "Phone Number",
@@ -282,19 +288,19 @@ class _BuyPageState extends State<BuyPage> {
                                 return null;
                               },
                               style: GoogleFonts.comfortaa(
-                                color: blackColor,
+                                color: black,
                                 fontSize: 18,
                               ),
                               decoration: InputDecoration(
                                 border: const UnderlineInputBorder(),
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: blackColor,
+                                    color: black,
                                   ),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: blackColor,
+                                    color: black,
                                   ),
                                 ),
                                 hintText: "Address",
@@ -324,19 +330,19 @@ class _BuyPageState extends State<BuyPage> {
                                       return null;
                                     },
                                     style: GoogleFonts.comfortaa(
-                                      color: blackColor,
+                                      color: black,
                                       fontSize: 18,
                                     ),
                                     decoration: InputDecoration(
                                       border: const UnderlineInputBorder(),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       hintText: "Pin Code",
@@ -365,19 +371,19 @@ class _BuyPageState extends State<BuyPage> {
                                       return null;
                                     },
                                     style: GoogleFonts.comfortaa(
-                                      color: blackColor,
+                                      color: black,
                                       fontSize: 18,
                                     ),
                                     decoration: InputDecoration(
                                       border: const UnderlineInputBorder(),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       hintText: "City",
@@ -410,19 +416,19 @@ class _BuyPageState extends State<BuyPage> {
                                       return null;
                                     },
                                     style: GoogleFonts.comfortaa(
-                                      color: blackColor,
+                                      color: black,
                                       fontSize: 18,
                                     ),
                                     decoration: InputDecoration(
                                       border: const UnderlineInputBorder(),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       hintText: "State",
@@ -451,19 +457,19 @@ class _BuyPageState extends State<BuyPage> {
                                       return null;
                                     },
                                     style: GoogleFonts.comfortaa(
-                                      color: blackColor,
+                                      color: black,
                                       fontSize: 18,
                                     ),
                                     decoration: InputDecoration(
                                       border: const UnderlineInputBorder(),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
-                                          color: blackColor,
+                                          color: black,
                                         ),
                                       ),
                                       hintText: "Country",
@@ -556,13 +562,13 @@ class _BuyPageState extends State<BuyPage> {
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
-                                          color: whiteColor,
+                                          color: white,
                                           shape: BoxShape.circle,
                                         ),
                                         child: Icon(
                                             CupertinoIcons.add_circled_solid,
                                             size: 30,
-                                            color: blackColor),
+                                            color: black),
                                       ),
                                     ],
                                   ),
@@ -577,7 +583,7 @@ class _BuyPageState extends State<BuyPage> {
                                       AutoSizeText(
                                         '${_currentUser.displayName}',
                                         style: GoogleFonts.comfortaa(
-                                          color: blackColor,
+                                          color: black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -586,7 +592,7 @@ class _BuyPageState extends State<BuyPage> {
                                       AutoSizeText(
                                         '${_currentUser.email}',
                                         style: GoogleFonts.comfortaa(
-                                          color: blackColor,
+                                          color: black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -607,7 +613,7 @@ class _BuyPageState extends State<BuyPage> {
                               child: Text(
                                 "Delivery Address",
                                 style: GoogleFonts.comfortaa(
-                                  color: blackColor,
+                                  color: black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -646,7 +652,7 @@ class _BuyPageState extends State<BuyPage> {
                               child: Text(
                                 "Payment Mode",
                                 style: GoogleFonts.comfortaa(
-                                  color: blackColor,
+                                  color: black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -674,7 +680,7 @@ class _BuyPageState extends State<BuyPage> {
                               child: Text(
                                 "Price Details",
                                 style: GoogleFonts.comfortaa(
-                                  color: blackColor,
+                                  color: black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -694,7 +700,7 @@ class _BuyPageState extends State<BuyPage> {
                                 Text(
                                   widget.list[widget.i]['Price'],
                                   style: GoogleFonts.comfortaa(
-                                    color: blackColor,
+                                    color: black,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -741,7 +747,7 @@ class _OrderDoneState extends State<OrderDone> {
               "Your Service\nHas Been Accepted",
               textAlign: TextAlign.center,
               style: GoogleFonts.comfortaa(
-                color: blackColor,
+                color: black,
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
               ),

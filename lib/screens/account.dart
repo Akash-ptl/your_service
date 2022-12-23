@@ -36,7 +36,7 @@ class _AccountPageState extends State<AccountPage> {
       height: 45,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: whiteColor,
+        color: white,
         // border: Border.all(
         //   color: CupertinoColors.systemGrey3,
         // ),
@@ -49,13 +49,13 @@ class _AccountPageState extends State<AccountPage> {
           Text(
             text,
             style: GoogleFonts.comfortaa(
-              color: blackColor,
+              color: black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
           ),
           const Spacer(),
-          Icon(CupertinoIcons.forward, color: blackColor),
+          Icon(CupertinoIcons.forward, color: black),
         ],
       ),
     );
@@ -92,11 +92,11 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: whiteColor,
+                            color: white,
                             shape: BoxShape.circle,
                           ),
                           child: Icon(CupertinoIcons.add_circled_solid,
-                              size: 30, color: blackColor),
+                              size: 30, color: black),
                         ),
                       ],
                     ),
@@ -108,7 +108,7 @@ class _AccountPageState extends State<AccountPage> {
                       Text(
                         '${_currentUser.displayName}',
                         style: GoogleFonts.comfortaa(
-                          color: blackColor,
+                          color: black,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),

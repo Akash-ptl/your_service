@@ -17,17 +17,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
-  late GoogleSignIn _googleSignIn;
   late Future _future;
 
   @override
   void initState() {
-    _googleSignIn = GoogleSignIn(
-      scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
-    );
     super.initState();
     _future = _initializeFirebase();
   }
@@ -59,6 +52,34 @@ class _LoginPageState extends State<LoginPage> {
     return firebaseApp;
   }
 
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> signup(BuildContext context) async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+
+      // Getting users credential
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      User? user = result.user;
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    cat: '',
+                    user: user!,
+                  )));
+// if result not null we simply call the MaterialpageRoute,
+      // for go to the HomePage screen
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -190,31 +211,6 @@ class _LoginPageState extends State<LoginPage> {
                                                 _isProcessing = false;
                                               });
 
-                                              // if (user!.uid ==
-                                              //     'CrAHdUiziNRPPvwiKTmEj2EGIOK2') {
-                                              //   // Navigator.of(context)
-                                              //   //     .pushReplacement(
-                                              //   //   MaterialPageRoute(
-                                              //   //     builder: (context) =>
-                                              //   //         const AdminPage(),
-                                              //   //   ),
-                                              //   // );
-                                              //   Navigator.of(context)
-                                              //       .pushReplacement(
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           AddPage(),
-                                              //     ),
-                                              //   );
-                                              // } else
-                                              //   Navigator.of(context)
-                                              //       .pushReplacement(
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           HomePage(user: user),
-                                              //     ),
-                                              //   );
-
                                               if (user != null) {
                                                 Navigator.of(context)
                                                     .pushReplacement(
@@ -250,28 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(height: 20),
                             GestureDetector(
                               onTap: () async {
-                                GoogleSignInAccount? googleSignInAccount =
-                                    await _googleSignIn.signIn();
-                                if (googleSignInAccount != null) {
-                                  print(googleSignInAccount.displayName);
-                                  print(googleSignInAccount.email);
-                                  print(googleSignInAccount.id);
-                                }
-                                User? user =
-                                    await FireAuth.signInUsingEmailPassword(
-                                  email: _emailTextController.text,
-                                  password: _passwordTextController.text,
-                                );
-                                if (user != null) {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => HomePage(
-                                        user: user,
-                                        cat: '',
-                                      ),
-                                    ),
-                                  );
-                                }
+                                signup(context);
                               },
                               child: const CircleAvatar(
                                 radius: 22,

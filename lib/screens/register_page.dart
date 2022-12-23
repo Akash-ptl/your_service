@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:your_service/screens/login_page.dart';
+import 'package:your_service/services/crud.dart';
 import 'package:your_service/utils/fire_auth.dart';
 import 'package:your_service/utils/validator.dart';
 
@@ -129,7 +130,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                         setState(() {
                                           _isProcessing = false;
                                         });
-
+                                        FirebaseCrud.addUser(
+                                          name: _nameTextController.text,
+                                          email: _emailTextController.text,
+                                        );
                                         if (user != null) {
                                           Navigator.of(context)
                                               .pushAndRemoveUntil(

@@ -50,11 +50,9 @@ class _DetailPageState extends State<DetailPage> {
                     scrollDirection: Axis.vertical,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return (widget.cat ==
-                              snapshot.data!.docs[index]['Service'])
+                      return (widget.cat == snapshot.data!.docs[index]['Service'])
                           ? SizedBox(
                               width: 180,
-                              height: h / 1.3,
                               child: Card(
                                 shape: const RoundedRectangleBorder(
                                   borderRadius:
@@ -135,27 +133,30 @@ class _DetailPageState extends State<DetailPage> {
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),
                                             ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          BuyPage(
-                                                            user: widget.user,
-                                                            i: index,
-                                                            list: snapshot
-                                                                .data!.docs,
-                                                          )),
-                                                );
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.black),
-                                              child: Text(
-                                                'Buy',
-                                                style: GoogleFonts.comfortaa(
-                                                    fontSize: 20),
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BuyPage(
+                                                              user: widget.user,
+                                                              i: index,
+                                                              list: snapshot
+                                                                  .data!.docs,
+                                                            )),
+                                                  );
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.black),
+                                                child: Text(
+                                                  'Buy',
+                                                  style: GoogleFonts.comfortaa(
+                                                      fontSize: 20),
+                                                ),
                                               ),
                                             ),
                                           ],

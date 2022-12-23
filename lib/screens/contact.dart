@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage();
@@ -44,8 +45,12 @@ class _ContactPageState extends State<ContactPage> {
               height: h / 10,
               child: GestureDetector(
                 onTap: () {
-                  _callNumber();
-                  print(_callNumber());
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: 'akashkalathiya46@gmail.com',
+                  );
+
+                  launchUrl(emailLaunchUri);
                 },
                 child: Card(
                   shape: const RoundedRectangleBorder(

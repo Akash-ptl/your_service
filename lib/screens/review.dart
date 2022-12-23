@@ -16,6 +16,8 @@ class _ReviewPageState extends State<ReviewPage> {
     super.initState();
   }
 
+  final reviewKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -41,7 +43,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 "Service Rating",
                 style: GoogleFonts.comfortaa(
                   letterSpacing: 2.2,
-                  color: blackColor,
+                  color: black,
                   fontWeight: FontWeight.bold,
                   fontSize: 17,
                 ),
@@ -53,7 +55,7 @@ class _ReviewPageState extends State<ReviewPage> {
             Center(
               child: StarRating(
                 size: 55,
-                inactiveStarColor: blackColor,
+                inactiveStarColor: black,
                 activeStarColor: Colors.yellow,
                 onChanged: (rate) {},
               ),
@@ -66,7 +68,7 @@ class _ReviewPageState extends State<ReviewPage> {
               child: Text(
                 "Review Title",
                 style: GoogleFonts.comfortaa(
-                  color: blackColor,
+                  color: black,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -86,18 +88,16 @@ class _ReviewPageState extends State<ReviewPage> {
                         borderSide: BorderSide(color: greyColor),
                         borderRadius: BorderRadius.circular(10)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackColor),
+                        borderSide: BorderSide(color: black),
                         borderRadius: BorderRadius.circular(10)),
                     errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: selectColor),
+                        borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(10)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: selectColor),
+                        borderSide: const BorderSide(color: Colors.red),
                         borderRadius: BorderRadius.circular(10))),
                 style: GoogleFonts.comfortaa(
-                    color: blackColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 18),
+                    color: black, fontWeight: FontWeight.w800, fontSize: 18),
               ),
             ),
             const SizedBox(
@@ -108,7 +108,7 @@ class _ReviewPageState extends State<ReviewPage> {
               child: Text(
                 "Brief of Your Review Title",
                 style: GoogleFonts.comfortaa(
-                  color: blackColor,
+                  color: black,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -130,18 +130,16 @@ class _ReviewPageState extends State<ReviewPage> {
                         borderSide: BorderSide(color: greyColor),
                         borderRadius: BorderRadius.circular(10)),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackColor),
+                        borderSide: BorderSide(color: black),
                         borderRadius: BorderRadius.circular(10)),
                     errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: selectColor),
+                        borderSide: BorderSide(color: black),
                         borderRadius: BorderRadius.circular(10)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: selectColor),
+                        borderSide: BorderSide(color: white),
                         borderRadius: BorderRadius.circular(10))),
                 style: GoogleFonts.comfortaa(
-                    color: blackColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 18),
+                    color: black, fontWeight: FontWeight.w800, fontSize: 18),
               ),
             ),
             const Spacer(),

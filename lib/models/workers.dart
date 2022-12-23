@@ -11,7 +11,6 @@ class Workers {
   String? id;
   String? wimage;
   String? gender;
-
   String? rating;
 
   Workers(
@@ -28,8 +27,4 @@ class Workers {
       this.wimage,
       this.gender,
       this.rating});
-}
-
-class Users {
-  String? email;
 }

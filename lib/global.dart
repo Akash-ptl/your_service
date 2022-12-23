@@ -145,10 +145,11 @@ List time = [
   '4:00 PM to 5:30 PM',
   '6:00 PM to 7:30 PM'
 ];
+int orderindex = 0;
 Color selectColor = Colors.red;
 
-Color blackColor = Colors.black;
-Color whiteColor = Colors.white;
+Color black = Colors.black;
+Color white = Colors.white;
 Color greyColor = Colors.grey;
 GlobalKey<FormState> buyNow = GlobalKey<FormState>();
 GlobalKey<FormState> reviewKey = GlobalKey<FormState>();
