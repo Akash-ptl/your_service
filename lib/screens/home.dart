@@ -16,7 +16,9 @@ import 'package:your_service/screens/details.dart';
 import 'package:your_service/screens/login_page.dart';
 import 'package:your_service/screens/order.dart';
 import 'package:your_service/screens/review.dart';
+import 'package:your_service/screens/user.dart';
 import 'package:your_service/services/crud.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -39,6 +41,8 @@ class _HomePageState extends State<HomePage> {
 
   int index = 0;
   final Stream<QuerySnapshot> collection = FirebaseCrud.readWorker();
+  final Stream<QuerySnapshot> crsl = FirebaseCrud.readCrsl();
+  final Stream<QuerySnapshot> collectionhistory = FirebaseCrud.readHistory();
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        actions: const [],
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
           'Your Service',
@@ -61,69 +66,51 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(right: 24, left: 12),
           child: Column(
             children: [
-              CarouselSlider(
-                items: [
-                  Container(
-                    margin: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/crsl1.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/crsl2.jpg"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/crsl3.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/crsl4.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: const DecorationImage(
-                        image: AssetImage("images/crsl5.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-                options: CarouselOptions(
-                  height: 180.0,
-                  autoPlay: true,
-                  aspectRatio: 16 / 9,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  viewportFraction: 1,
-                ),
-              ),
+              StreamBuilder(
+                  stream: crsl,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return CarouselSlider(
+                        items: snapshot.data!.docs
+                            .map((e) => GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          user: widget.user,
+                                          cat: e['Service'],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.all(6.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      image: DecorationImage(
+                                        image: AssetImage(e['Image']),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        options: CarouselOptions(
+                          height: 180.0,
+                          autoPlay: true,
+                          aspectRatio: 16 / 9,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          viewportFraction: 1,
+                        ),
+                      );
+                    }
+                    return Container();
+                  }),
               const SizedBox(
                 height: 15,
               ),
@@ -395,7 +382,129 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        Container(),
+        StreamBuilder(
+          stream: collectionhistory,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: 180,
+                        child: Card(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          color: Colors.grey.shade200,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: w,
+                                height: 162,
+                                child: Card(
+                                  elevation: 0,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: 150,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image.network(
+                                                snapshot.data!.docs[index]
+                                                    ['Image'],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 180,
+                                        height: 100,
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Name : ${snapshot.data!.docs[index]['Name']}',
+                                                style: GoogleFonts.comfortaa(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Category : ${snapshot.data!.docs[index]['Category']}',
+                                                style: GoogleFonts.comfortaa(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Service : ${snapshot.data!.docs[index]['Service']}',
+                                                style: GoogleFonts.comfortaa(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Price : ${snapshot.data!.docs[index]['Price']}',
+                                                style: GoogleFonts.comfortaa(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                      IconButton(
+                                          onPressed: () async {
+                                            var response = await FirebaseCrud
+                                                .deleteHistory(
+                                                    docId: snapshot
+                                                        .data!.docs[index].id);
+                                            if (response.code != 200) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      content: Text(response
+                                                          .message
+                                                          .toString()),
+                                                    );
+                                                  });
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              );
+            }
+
+            return Container();
+          },
+        ),
         (widget.user.uid == 'CrAHdUiziNRPPvwiKTmEj2EGIOK2')
             ? Padding(
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -422,11 +531,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: whiteColor,
+                                    color: white,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(CupertinoIcons.add_circled_solid,
-                                      size: 30, color: blackColor),
+                                      size: 30, color: black),
                                 ),
                               ],
                             ),
@@ -438,7 +547,7 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 '${_currentUser.displayName}',
                                 style: GoogleFonts.comfortaa(
-                                  color: blackColor,
+                                  color: black,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -469,7 +578,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ListTile(
                         leading: const Icon(Icons.list),
-                        title: Text(' List ', style: GoogleFonts.comfortaa()),
+                        title: Text(' Service List ',
+                            style: GoogleFonts.comfortaa()),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -478,9 +588,11 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
-                        leading: const Icon(Icons.location_on),
-                        title: Text(' Orders ', style: GoogleFonts.comfortaa()),
+                        leading: const Icon(Icons.view_list),
+                        title:
+                            Text(' Order List', style: GoogleFonts.comfortaa()),
                         onTap: () {
+                          orderindex = 1;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -489,12 +601,21 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       ListTile(
+                        leading: const Icon(MdiIcons.account),
+                        title:
+                            Text(' All Users ', style: GoogleFonts.comfortaa()),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => UserPage()),
+                          );
+                        },
+                      ),
+                      ListTile(
                         leading: const Icon(Icons.logout),
                         title: Text('LogOut', style: GoogleFonts.comfortaa()),
                         onTap: () async {
-                          setState(() {});
                           await FirebaseAuth.instance.signOut();
-                          setState(() {});
 
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
@@ -528,11 +649,11 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: whiteColor,
+                                    color: white,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(CupertinoIcons.add_circled_solid,
-                                      size: 30, color: blackColor),
+                                      size: 30, color: black),
                                 ),
                               ],
                             ),
@@ -544,7 +665,7 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 '${_currentUser.displayName}',
                                 style: GoogleFonts.comfortaa(
-                                  color: blackColor,
+                                  color: black,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -565,9 +686,10 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 30),
                       ListTile(
                         leading: const Icon(Icons.book),
-                        title:
-                            Text(' My Order ', style: GoogleFonts.comfortaa()),
+                        title: Text(' My Bookings ',
+                            style: GoogleFonts.comfortaa()),
                         onTap: () {
+                          orderindex = 0;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
